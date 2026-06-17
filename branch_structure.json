@@ -1,0 +1,30 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "develop",
+    "ejemplo",
+    "main",
+    "modulo-cursos",
+    "modulo-docente",
+    "modulo-estudiante",
+    "origin"
+  ],
+  "parent": {
+    "develop": "main",
+    "ejemplo": "main",
+    "main": null,
+    "modulo-cursos": "main",
+    "modulo-docente": "main",
+    "modulo-estudiante": "main",
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "develop",
+    "ejemplo",
+    "modulo-cursos",
+    "modulo-docente",
+    "modulo-estudiante",
+    "origin"
+  ]
+}

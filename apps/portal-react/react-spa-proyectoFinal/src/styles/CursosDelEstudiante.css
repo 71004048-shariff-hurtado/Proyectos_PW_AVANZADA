@@ -1,0 +1,270 @@
+/* Cursos del Estudiante (Inscripciones) - Estilos */
+
+.inscripciones-container {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+.inscripciones-header {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.header-titulo {
+  flex: 1;
+  min-width: 300px;
+}
+
+.header-titulo h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+  color: white;
+}
+
+.header-titulo p {
+  font-size: 1rem;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.inscripciones-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.inscripciones-wrapper {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* Estadísticas */
+.estadisticas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.estadistica-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.estadistica-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+.estadistica-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.estadistica-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.estadistica-numero {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.estadistica-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+/* Tabs */
+.tabs-container {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.tab:hover {
+  color: #1e293b;
+}
+
+.tab.activo {
+  color: #4f46e5;
+  border-bottom-color: #4f46e5;
+}
+
+/* Lista de inscripciones */
+.inscripciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Estado vacío */
+.inscripciones-vacia {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f8fafc;
+  border-radius: 0.75rem;
+  border: 2px dashed #e2e8f0;
+}
+
+.vacia-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.inscripciones-vacia h3 {
+  font-size: 1.25rem;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.inscripciones-vacia p {
+  color: #64748b;
+  margin: 0 0 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .inscripciones-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .header-content {
+    gap: 1rem;
+  }
+
+  .header-titulo h1 {
+    font-size: 2rem;
+  }
+
+  .inscripciones-wrapper {
+    padding: 1.5rem;
+  }
+
+  .estadisticas-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .estadistica-card {
+    padding: 1rem;
+  }
+
+  .estadistica-icon {
+    font-size: 2rem;
+  }
+
+  .estadistica-numero {
+    font-size: 1.5rem;
+  }
+
+  .tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .inscripciones-vacia {
+    padding: 2rem 1rem;
+  }
+
+  .vacia-icon {
+    font-size: 2.5rem;
+  }
+
+  .inscripciones-vacia h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .inscripciones-container {
+    padding-bottom: 2rem;
+  }
+
+  .inscripciones-header {
+    padding: 1rem 0.75rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+  }
+
+  .header-titulo h1 {
+    font-size: 1.5rem;
+  }
+
+  .inscripciones-main {
+    padding: 0 0.75rem;
+  }
+
+  .inscripciones-wrapper {
+    padding: 1rem;
+  }
+
+  .estadisticas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tab {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

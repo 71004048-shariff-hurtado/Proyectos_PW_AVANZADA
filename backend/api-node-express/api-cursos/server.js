@@ -4,7 +4,8 @@ const helmet = require('helmet');
 require('dotenv').config();
 
 const conectarDB = require('./config/database');
-const routes = require('./routes/cursoRoutes');
+const cursoRoutes = require('./routes/cursoRoutes');
+const docenteRoutes = require('./routes/docenteRoutes');
 
 const app = express();
 
@@ -15,7 +16,8 @@ app.use(express.json({limit: '10kb'}));
 async function iniciarServidor() {
     await conectarDB();
 
-    app.use('/api', routes);
+    app.use('/api', cursoRoutes);
+    app.use('/api', docenteRoutes);
 
     const PORT = process.env.PORT || 3000;
 

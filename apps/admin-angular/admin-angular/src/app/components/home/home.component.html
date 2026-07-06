@@ -12,9 +12,10 @@
     </ul>
 
     <div class="navbar-actions">
-      <a href="login.html" class="btn btn-ghost btn-sm">Iniciar sesión</a>
-      <a href="registro.html" class="btn btn-primary btn-sm">Registrarse</a>
-      <button class="hamburger" id="hamburger" aria-label="Abrir menú" [attr.aria-expanded]="isMenuOpen" (click)="toggleMenu()">
+      <a routerLink="/login" class="btn btn-ghost btn-sm">Iniciar sesión</a>
+      <a routerLink="/registro" class="btn btn-primary btn-sm">Registrarse</a>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" [attr.aria-expanded]="isMenuOpen"
+        (click)="toggleMenu()">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -42,11 +43,13 @@
           tecnológico
         </h1>
         <p class="hero-subtitle">
-          Formación de calidad universitaria en programación, desarrollo web, backend, bases de datos y más. Accede desde cualquier dispositivo.
+          Formación de calidad universitaria en programación, desarrollo web, backend, bases de datos y más. Accede
+          desde cualquier dispositivo.
         </p>
         <div class="hero-actions">
           <a routerLink="/cursos" class="btn btn-primary btn-lg">Explorar cursos</a>
-          <a href="registro.html" class="btn btn-secondary btn-lg" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4);">Crear cuenta gratis</a>
+          <a routerLink="/registro" class="btn btn-secondary btn-lg"
+            style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4);">Crear cuenta gratis</a>
         </div>
         <div class="hero-stats" role="list" aria-label="Estadísticas de la plataforma">
           <div class="hero-stat" role="listitem">
@@ -72,23 +75,27 @@
       <div class="section-header">
         <span class="section-label">¿Por qué EduTech?</span>
         <h2 id="beneficios-heading" class="section-title">Todo lo que necesitas para aprender</h2>
-        <p class="section-subtitle">Una plataforma pensada para estudiantes universitarios y profesionales que buscan crecer en tecnología.</p>
+        <p class="section-subtitle">Una plataforma pensada para estudiantes universitarios y profesionales que buscan
+          crecer en tecnología.</p>
       </div>
       <div class="grid grid-3">
         <article class="benefit-card">
           <div class="benefit-icon" style="background:var(--primary-100);" aria-hidden="true">📖</div>
           <h3>Cursos estructurados</h3>
-          <p>Contenido organizado por módulos, sesiones y actividades prácticas, diseñados por docentes universitarios con experiencia real en la industria.</p>
+          <p>Contenido organizado por módulos, sesiones y actividades prácticas, diseñados por docentes universitarios
+            con experiencia real en la industria.</p>
         </article>
         <article class="benefit-card">
           <div class="benefit-icon" style="background:var(--accent-100);" aria-hidden="true">🖥️</div>
           <h3>Acceso multiplataforma</h3>
-          <p>Estudia desde tu computador, tablet o celular. Tu progreso se sincroniza automáticamente en todos tus dispositivos.</p>
+          <p>Estudia desde tu computador, tablet o celular. Tu progreso se sincroniza automáticamente en todos tus
+            dispositivos.</p>
         </article>
         <article class="benefit-card">
           <div class="benefit-icon" style="background:var(--success-100);" aria-hidden="true">🏆</div>
           <h3>Certificados reconocidos</h3>
-          <p>Al completar cada curso obtienes un certificado de finalización con aval académico, útil para tu portafolio profesional.</p>
+          <p>Al completar cada curso obtienes un certificado de finalización con aval académico, útil para tu portafolio
+            profesional.</p>
         </article>
         <article class="benefit-card">
           <div class="benefit-icon" style="background:var(--warning-100);" aria-hidden="true">⚡</div>
@@ -103,7 +110,8 @@
         <article class="benefit-card">
           <div class="benefit-icon" style="background:var(--primary-100);" aria-hidden="true">📊</div>
           <h3>Seguimiento de avance</h3>
-          <p>Visualiza tu progreso en tiempo real con métricas claras sobre tu rendimiento, asistencia y finalización de actividades.</p>
+          <p>Visualiza tu progreso en tiempo real con métricas claras sobre tu rendimiento, asistencia y finalización de
+            actividades.</p>
         </article>
       </div>
     </div>
@@ -271,8 +279,10 @@
         <div class="card" style="text-align:center;">
           <div class="avatar xl" style="margin:0 auto var(--space-4);" aria-label="Foto de Juan Pérez">JP</div>
           <h4>Juan Pérez</h4>
-          <p style="font-size:var(--text-sm);color:var(--primary-600);font-weight:600;margin-bottom:var(--space-2);">Especialista Frontend</p>
-          <p style="font-size:var(--text-sm);">10 años de experiencia en React, Vue y Angular. Ex-developer en startups de Lima.</p>
+          <p style="font-size:var(--text-sm);color:var(--primary-600);font-weight:600;margin-bottom:var(--space-2);">
+            Especialista Frontend</p>
+          <p style="font-size:var(--text-sm);">10 años de experiencia en React, Vue y Angular. Ex-developer en startups
+            de Lima.</p>
           <div style="margin-top:var(--space-4);display:flex;justify-content:center;gap:var(--space-2);">
             <span class="badge badge-primary no-dot">React</span>
             <span class="badge badge-accent no-dot">Vue</span>
@@ -280,10 +290,14 @@
           </div>
         </div>
         <div class="card" style="text-align:center;">
-          <div class="avatar xl" style="margin:0 auto var(--space-4);background:linear-gradient(135deg,#7c3aed,#ec4899);" aria-label="Foto de María Torres">MT</div>
+          <div class="avatar xl"
+            style="margin:0 auto var(--space-4);background:linear-gradient(135deg,#7c3aed,#ec4899);"
+            aria-label="Foto de María Torres">MT</div>
           <h4>María Torres</h4>
-          <p style="font-size:var(--text-sm);color:var(--accent-600);font-weight:600;margin-bottom:var(--space-2);">Arquitecta Full Stack</p>
-          <p style="font-size:var(--text-sm);">Arquitecta de software con enfoque en sistemas distribuidos, MongoDB y microservicios.</p>
+          <p style="font-size:var(--text-sm);color:var(--accent-600);font-weight:600;margin-bottom:var(--space-2);">
+            Arquitecta Full Stack</p>
+          <p style="font-size:var(--text-sm);">Arquitecta de software con enfoque en sistemas distribuidos, MongoDB y
+            microservicios.</p>
           <div style="margin-top:var(--space-4);display:flex;justify-content:center;gap:var(--space-2);">
             <span class="badge badge-success no-dot">Node.js</span>
             <span class="badge badge-primary no-dot">MongoDB</span>
@@ -291,10 +305,14 @@
           </div>
         </div>
         <div class="card" style="text-align:center;">
-          <div class="avatar xl" style="margin:0 auto var(--space-4);background:linear-gradient(135deg,#059669,#0891b2);" aria-label="Foto de Luis Ramírez">LR</div>
+          <div class="avatar xl"
+            style="margin:0 auto var(--space-4);background:linear-gradient(135deg,#059669,#0891b2);"
+            aria-label="Foto de Luis Ramírez">LR</div>
           <h4>Luis Ramírez</h4>
-          <p style="font-size:var(--text-sm);color:var(--success-600);font-weight:600;margin-bottom:var(--space-2);">Ingeniero DevOps</p>
-          <p style="font-size:var(--text-sm);">DevOps engineer con experiencia en AWS, CI/CD pipelines y automatización de infraestructura.</p>
+          <p style="font-size:var(--text-sm);color:var(--success-600);font-weight:600;margin-bottom:var(--space-2);">
+            Ingeniero DevOps</p>
+          <p style="font-size:var(--text-sm);">DevOps engineer con experiencia en AWS, CI/CD pipelines y automatización
+            de infraestructura.</p>
           <div style="margin-top:var(--space-4);display:flex;justify-content:center;gap:var(--space-2);">
             <span class="badge badge-warning no-dot">AWS</span>
             <span class="badge badge-gray no-dot">Kubernetes</span>
@@ -311,8 +329,10 @@
       <h2 id="cta-heading">¿Listo para comenzar tu formación?</h2>
       <p>Únete a más de 1,200 estudiantes que ya están construyendo su futuro en tecnología con EduTech Academy.</p>
       <div style="display:flex;justify-content:center;gap:var(--space-4);flex-wrap:wrap;">
-        <a href="registro.html" class="btn btn-lg" style="background:var(--white);color:var(--primary-600);font-weight:700;">Crear cuenta gratuita</a>
-        <a routerLink="/cursos" class="btn btn-lg" style="background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.5);">Ver catálogo →</a>
+        <a routerLink="/registro" class="btn btn-lg"
+          style="background:var(--white);color:var(--primary-600);font-weight:700;">Crear cuenta gratuita</a>
+        <a routerLink="/cursos" class="btn btn-lg"
+          style="background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.5);">Ver catálogo →</a>
       </div>
     </div>
   </section>
@@ -328,7 +348,8 @@
           <div class="brand-icon" aria-hidden="true">🎓</div>
           EduTech Academy
         </div>
-        <p class="footer-desc">Plataforma universitaria de gestión de cursos e inscripciones. Formación tecnológica de calidad para el siglo XXI.</p>
+        <p class="footer-desc">Plataforma universitaria de gestión de cursos e inscripciones. Formación tecnológica de
+          calidad para el siglo XXI.</p>
       </div>
       <div class="footer-col">
         <h4>Cursos</h4>
@@ -340,9 +361,9 @@
       </div>
       <div class="footer-col">
         <h4>Plataforma</h4>
-        <a href="login.html">Iniciar sesión</a>
-        <a href="registro.html">Registrarse</a>
-        <a href="dashboard-estudiante.html">Mi panel</a>
+        <a routerLink="/login">Iniciar sesión</a>
+        <a routerLink="/registro">Registrarse</a>
+        <a routerLink="/dashboard-estudiante">Mi panel</a>
         <a href="mis-inscripciones.html">Mis cursos</a>
         <a href="perfil.html">Perfil</a>
       </div>

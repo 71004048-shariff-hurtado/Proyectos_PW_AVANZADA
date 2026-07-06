@@ -23,3 +23,5 @@ async function iniciarServidor() {
         console.log(`Servidor ejecutado en puerto ${PORT}`);
     })
 }
+
+iniciarServidor();

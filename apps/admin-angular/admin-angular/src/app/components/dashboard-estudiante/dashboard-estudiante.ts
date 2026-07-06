@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-admin-dashboard',
+  selector: 'app-dashboard-estudiante',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './admin-dashboard.component.html',
+  templateUrl: './dashboard-estudiante.html',
+  styleUrl: './dashboard-estudiante.css',
 })
-export class AdminDashboardComponent {
+export class DashboardEstudiante implements OnInit {
+  currentUser: any = null;
   isMenuOpen = false;
 
   constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.currentUser = this.authService.getCurrentUser();
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

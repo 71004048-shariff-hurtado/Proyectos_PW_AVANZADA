@@ -15,18 +15,18 @@
         <div class="avatar" style="background:linear-gradient(135deg,var(--danger-600),#9333ea);" aria-label="Foto del administrador">AD</div>
         <span style="font-size:var(--text-sm);font-weight:600;color:var(--gray-700);">Admin</span>
       </div>
-      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav">
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" [attr.aria-expanded]="isMenuOpen" (click)="toggleMenu()">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 </nav>
-<div class="mobile-nav" id="mobile-nav">
+<div class="mobile-nav" id="mobile-nav" [class.open]="isMenuOpen">
   <a routerLink="/admin-dashboard">📊 Dashboard</a>
   <a routerLink="/admin-cursos">📚 Cursos</a>
   <a routerLink="/admin-estudiantes">👥 Estudiantes</a>
   <a routerLink="/admin-docentes">👨‍🏫 Docentes</a>
-  <a href="login.html">🚪 Salir</a>
+  <a href="#" (click)="logout(); $event.preventDefault()">🚪 Salir</a>
 </div>
 
 <div class="page-content">
@@ -52,7 +52,7 @@
         <a routerLink="/admin-docentes"><span class="nav-icon" aria-hidden="true">👨‍🏫</span> Docentes<span class="sidebar-badge">12</span></a>
 
         <div class="sidebar-section-label">Sistema</div>
-        <a href="login.html"><span class="nav-icon" aria-hidden="true">🚪</span> Cerrar sesión</a>
+        <a href="#" (click)="logout(); $event.preventDefault()"><span class="nav-icon" aria-hidden="true">🚪</span> Cerrar sesión</a>
       </nav>
     </aside>
 

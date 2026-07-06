@@ -8,6 +8,6 @@ export const authGuardGuard: CanActivateFn = (route, state) => {
   console.log('Guard ejecutado');
   console.log('token', isLogged);
 
-  return isLogged? true : router.navigate(['/']); 
+  return isLogged ? true : router.navigate(['/']);
 };
 

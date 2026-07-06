@@ -1,0 +1,108 @@
+<main class="auth-page" role="main">
+  <div class="auth-card">
+
+    <!-- Logo -->
+    <div class="auth-logo">
+      <div class="logo-icon" aria-hidden="true">🎓</div>
+      <h1>Bienvenido de vuelta</h1>
+      <p>Ingresa a tu cuenta para continuar aprendiendo</p>
+    </div>
+
+    <!-- Alerta de Cuenta Demo -->
+    <div class="alert alert-primary" role="alert" style="margin-bottom:var(--space-5);">
+      <span class="alert-icon" aria-hidden="true">ℹ️</span>
+      <div class="alert-content">
+        <div class="alert-title">Cuenta demo disponible</div>
+        <div>estudiante@edutech.pe / <strong>demo123</strong></div>
+      </div>
+    </div>
+
+    <!-- Alerta de Error -->
+    <div *ngIf="errorMessage" class="alert" role="alert" style="margin-bottom:var(--space-5); background-color: #fef2f2; border: 1px solid #fee2e2; color: #991b1b; display: flex; gap: var(--space-4); padding: var(--space-4); border-radius: var(--border-radius);">
+      <span class="alert-icon" aria-hidden="true">⚠️</span>
+      <div class="alert-content">
+        <div class="alert-title" style="font-weight: 700;">Error de ingreso</div>
+        <div>{{ errorMessage }}</div>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <form (ngSubmit)="onSubmit()" aria-label="Formulario de inicio de sesión" novalidate>
+      <div class="form-group">
+        <label for="email" class="form-label">Correo electrónico <span class="required" aria-hidden="true">*</span></label>
+        <div class="input-wrapper">
+          <span class="input-icon" aria-hidden="true">✉️</span>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            class="form-control"
+            placeholder="tu@correo.edu.pe"
+            autocomplete="email"
+            required
+            aria-required="true"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Contraseña <span class="required" aria-hidden="true">*</span></label>
+        <div class="input-wrapper">
+          <span class="input-icon" aria-hidden="true">🔒</span>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            class="form-control"
+            placeholder="Ingresa tu contraseña"
+            autocomplete="current-password"
+            required
+            aria-required="true"
+          />
+          <span
+            class="input-suffix"
+            id="toggle-pass"
+            role="button"
+            tabindex="0"
+            (click)="togglePasswordVisibility()"
+            (keydown.enter)="togglePasswordVisibility()"
+            (keydown.space)="togglePasswordVisibility(); $event.preventDefault()"
+            aria-label="Mostrar/ocultar contraseña"
+          >
+            {{ showPassword ? '🙈' : '👁️' }}
+          </span>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
+        <div class="checkbox-group">
+          <input type="checkbox" id="remember" name="remember" />
+          <label for="remember">Recordarme</label>
+        </div>
+        <a href="#" style="font-size:var(--text-sm);color:var(--primary-600);font-weight:600;">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-full btn-lg">
+        Ingresar a mi cuenta →
+      </button>
+    </form>
+
+    <div class="auth-divider">o continúa con</div>
+
+    <div style="display:flex;gap:var(--space-3);">
+      <button type="button" class="btn btn-ghost w-full" aria-label="Iniciar sesión con Google">
+        🔵 Google
+      </button>
+      <button type="button" class="btn btn-ghost w-full" aria-label="Iniciar sesión con Microsoft">
+        🟦 Microsoft
+      </button>
+    </div>
+
+    <p class="auth-footer-text">
+      ¿No tienes cuenta? <a routerLink="/registro">Regístrate gratis</a>
+    </p>
+
+  </div>
+</main>

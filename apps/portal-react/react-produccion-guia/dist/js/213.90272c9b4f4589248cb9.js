@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreact_produccion_guia=self.webpackChunkreact_produccion_guia||[]).push([[213],{213(e,u,c){c.r(u),c.d(u,{default:()=>a});var r=c(848);function a(){return(0,r.jsx)("h2",{children:"Panel de Usuario"})}}}]);

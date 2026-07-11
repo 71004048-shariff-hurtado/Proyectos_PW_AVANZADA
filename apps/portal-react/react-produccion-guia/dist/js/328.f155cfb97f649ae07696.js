@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreact_produccion_guia=self.webpackChunkreact_produccion_guia||[]).push([[328],{328(c,e,u){u.r(e),u.d(e,{default:()=>i});var a=u(848);function i(){return(0,a.jsx)("h2",{children:"Pagina de Inicio"})}}}]);

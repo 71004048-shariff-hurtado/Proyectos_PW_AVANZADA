@@ -8,6 +8,7 @@
     <ul class="navbar-nav" role="list">
       <li><a routerLink="/dashboard-estudiante" class="active" aria-current="page">Mi panel</a></li>
       <li><a routerLink="/admin-cursos">Explorar cursos</a></li>
+      <li><a routerLink="/mis-inscripciones">Mis inscripciones</a></li>
     </ul>
     <div class="navbar-actions">
       <div class="navbar-user" tabindex="0" role="button" [attr.aria-label]="'Menú de usuario de ' + (currentUser?.nombre || 'Estudiante')">
@@ -29,6 +30,8 @@
 <div class="mobile-nav" id="mobile-nav" [class.open]="isMenuOpen">
   <a routerLink="/dashboard-estudiante">🏠 Mi panel</a>
   <a routerLink="/admin-cursos">📚 Explorar cursos</a>
+  <a routerLink="/mis-inscripciones">📋 Mis inscripciones</a>
+  <a routerLink="/perfil">👤 Mi perfil</a>
   <a href="#" (click)="logout(); $event.preventDefault()">🚪 Cerrar sesión</a>
 </div>
 
@@ -54,11 +57,18 @@
         <a routerLink="/dashboard-estudiante" class="active" aria-current="page">
           <span class="nav-icon" aria-hidden="true">🏠</span> Inicio
         </a>
+        <a routerLink="/mis-inscripciones">
+          <span class="nav-icon" aria-hidden="true">📚</span> Mis inscripciones
+          <span class="sidebar-badge">3</span>
+        </a>
         <a routerLink="/admin-cursos">
           <span class="nav-icon" aria-hidden="true">🔍</span> Explorar
         </a>
 
         <div class="sidebar-section-label">Cuenta</div>
+        <a routerLink="/perfil">
+          <span class="nav-icon" aria-hidden="true">👤</span> Mi perfil
+        </a>
         <a href="#" (click)="logout(); $event.preventDefault()">
           <span class="nav-icon" aria-hidden="true">🚪</span> Cerrar sesión
         </a>
@@ -247,6 +257,7 @@
                 <div style="font-size:var(--text-xs);color:var(--text-muted);">Certificados</div>
               </div>
             </div>
+            <a routerLink="/perfil" class="btn btn-ghost w-full btn-sm">Editar perfil</a>
           </div>
 
           <!-- Cursos recomendados -->

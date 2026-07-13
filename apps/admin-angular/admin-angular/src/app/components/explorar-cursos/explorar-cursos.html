@@ -1,0 +1,166 @@
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation" aria-label="Navegación del panel">
+  <div class="container">
+    <a routerLink="/" class="navbar-brand">
+      <div class="brand-icon" aria-hidden="true">🎓</div>
+      <span>Edu<em>Tech</em></span>
+    </a>
+    <ul class="navbar-nav" role="list">
+      <li><a routerLink="/dashboard-estudiante">Mi panel</a></li>
+      <li><a routerLink="/explorar-cursos" class="active" aria-current="page">Explorar cursos</a></li>
+      <li><a routerLink="/mis-inscripciones">Mis inscripciones</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <div class="navbar-user" tabindex="0" role="button" [attr.aria-label]="'Menú de usuario de ' + (currentUser?.nombre || 'Estudiante')">
+        <div class="avatar" aria-hidden="true">
+          {{ currentUser?.nombre ? (currentUser.nombre[0] + (currentUser.apellidos ? currentUser.apellidos[0] : '')) : 'ST' }}
+        </div>
+        <span style="font-size:var(--text-sm);font-weight:600;color:var(--gray-700);">
+          {{ currentUser?.nombre }} {{ currentUser?.apellidos ? currentUser.apellidos.split(' ')[0] : '' }}
+        </span>
+        <span aria-hidden="true" style="color:var(--gray-400);">▾</span>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" [attr.aria-expanded]="isMenuOpen" (click)="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobile-nav" [class.open]="isMenuOpen">
+  <a routerLink="/dashboard-estudiante">🏠 Mi panel</a>
+  <a routerLink="/explorar-cursos">🔍 Explorar cursos</a>
+  <a routerLink="/mis-inscripciones">📋 Mis inscripciones</a>
+  <a routerLink="/perfil">👤 Mi perfil</a>
+  <a href="#" (click)="logout(); $event.preventDefault()">🚪 Cerrar sesión</a>
+</div>
+
+<div class="page-content">
+  <div class="layout-with-sidebar">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Menú lateral del estudiante">
+      <div class="sidebar-header">
+        <div class="sidebar-user">
+          <div class="avatar" aria-label="Foto de usuario">
+            {{ currentUser?.nombre ? (currentUser.nombre[0] + (currentUser.apellidos ? currentUser.apellidos[0] : '')) : 'ST' }}
+          </div>
+          <div class="user-info">
+            <div class="name">{{ currentUser?.nombre }} {{ currentUser?.apellidos }}</div>
+            <div class="role">Estudiante</div>
+          </div>
+        </div>
+        <div class="sidebar-title">Panel estudiantil</div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Navegación del panel">
+        <a routerLink="/dashboard-estudiante">
+          <span class="nav-icon" aria-hidden="true">🏠</span> Inicio
+        </a>
+        <a routerLink="/mis-inscripciones">
+          <span class="nav-icon" aria-hidden="true">📚</span> Mis inscripciones
+        </a>
+        <a routerLink="/explorar-cursos" class="active" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">🔍</span> Explorar
+        </a>
+
+        <div class="sidebar-section-label">Cuenta</div>
+        <a routerLink="/perfil">
+          <span class="nav-icon" aria-hidden="true">👤</span> Mi perfil
+        </a>
+        <a href="#" (click)="logout(); $event.preventDefault()">
+          <span class="nav-icon" aria-hidden="true">🚪</span> Cerrar sesión
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <nav class="breadcrumb" aria-label="Ruta de navegación">
+        <a routerLink="/dashboard-estudiante">Mi panel</a>
+        <span class="separator" aria-hidden="true">›</span>
+        <span class="current">Explorar cursos</span>
+      </nav>
+
+      <div class="page-header">
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Explorar cursos</h1>
+            <p class="page-subtitle">Elige un curso y presiona "Inscribirme" para agregarlo a tu panel.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensajes de feedback -->
+      <div *ngIf="mensajeExito" class="card" style="border:1px solid var(--success-600);background:var(--success-100);margin-bottom:var(--space-5);padding:var(--space-4);">
+        <span style="color:var(--success-600);font-weight:600;">✅ {{ mensajeExito }}</span>
+      </div>
+      <div *ngIf="mensajeError" class="card" style="border:1px solid var(--danger-600);background:var(--danger-100, #fee2e2);margin-bottom:var(--space-5);padding:var(--space-4);">
+        <span style="color:var(--danger-600);font-weight:600;">⚠️ {{ mensajeError }}</span>
+      </div>
+
+      <!-- Buscador -->
+      <div class="card" style="margin-bottom:var(--space-6);">
+        <div class="search-bar">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar por curso, docente o categoría..."
+            [(ngModel)]="busqueda"
+            aria-label="Buscar curso" />
+        </div>
+      </div>
+
+      <!-- Estado de carga -->
+      <div *ngIf="cargando" class="card" style="text-align:center;padding:var(--space-10);">
+        <p style="color:var(--text-muted);">Cargando cursos disponibles...</p>
+      </div>
+
+      <!-- Error de carga -->
+      <div *ngIf="!cargando && errorCarga" class="card" style="text-align:center;padding:var(--space-10);">
+        <p style="color:var(--danger-600);font-weight:600;">{{ errorCarga }}</p>
+      </div>
+
+      <!-- Sin resultados -->
+      <div *ngIf="!cargando && !errorCarga && cursosFiltrados.length === 0" class="card" style="text-align:center;padding:var(--space-10);">
+        <p style="color:var(--text-muted);">No se encontraron cursos con ese criterio.</p>
+      </div>
+
+      <!-- Grid de cursos -->
+      <div class="grid grid-3" role="list" aria-label="Listado de cursos" *ngIf="!cargando && !errorCarga && cursosFiltrados.length > 0">
+        <article class="course-card" role="listitem" *ngFor="let curso of cursosFiltrados">
+          <div class="course-card-image" [style.background]="curso.color">
+            <div class="course-thumb-placeholder" aria-hidden="true">{{ curso.icono }}</div>
+            <span class="course-card-badge badge badge-primary no-dot">{{ curso.categoria }}</span>
+          </div>
+          <div class="course-card-body">
+            <div class="course-category">{{ curso.categoria }}</div>
+            <h3 class="course-title">{{ curso.titulo }}</h3>
+            <p class="course-instructor">👨‍🏫 {{ curso.docente }}</p>
+            <div class="course-meta">
+              <span class="course-meta-item">🕒 {{ curso.horas }}h</span>
+              <span class="course-meta-item">📱 {{ curso.modalidad }}</span>
+            </div>
+          </div>
+          <div class="course-card-footer">
+            <div class="course-price">
+              <ng-container *ngIf="curso.precio > 0; else gratis">
+                <span class="currency">S/</span> {{ curso.precio }}
+              </ng-container>
+              <ng-template #gratis>Gratuito</ng-template>
+            </div>
+            <button
+              *ngIf="!estaInscrito(curso)"
+              class="btn btn-primary btn-sm"
+              [disabled]="inscribiendoId === curso._id"
+              (click)="inscribirse(curso)">
+              {{ inscribiendoId === curso._id ? 'Inscribiendo...' : '+ Inscribirme' }}
+            </button>
+            <a *ngIf="estaInscrito(curso)" routerLink="/mis-inscripciones" class="btn btn-success btn-sm">✔ Ya inscrito</a>
+          </div>
+        </article>
+      </div>
+
+    </main>
+  </div>
+</div>

@@ -7,7 +7,7 @@
     </a>
     <ul class="navbar-nav" role="list">
       <li><a routerLink="/dashboard-estudiante">Mi panel</a></li>
-      <li><a routerLink="/admin-cursos">Explorar cursos</a></li>
+      <li><a routerLink="/explorar-cursos">Explorar cursos</a></li>
       <li><a routerLink="/mis-inscripciones" class="active" aria-current="page">Mis inscripciones</a></li>
     </ul>
     <div class="navbar-actions">
@@ -60,7 +60,7 @@
           <span class="nav-icon" aria-hidden="true">📚</span> Mis inscripciones
           <span class="sidebar-badge">{{ inscripciones.length }}</span>
         </a>
-        <a routerLink="/admin-cursos">
+        <a routerLink="/explorar-cursos">
           <span class="nav-icon" aria-hidden="true">🔍</span> Explorar
         </a>
 
@@ -88,7 +88,7 @@
             <h1 class="page-title">Mis inscripciones</h1>
             <p class="page-subtitle">Gestiona y da seguimiento a todos tus cursos inscritos.</p>
           </div>
-          <a routerLink="/admin-cursos" class="btn btn-primary">+ Nuevo curso</a>
+          <a routerLink="/explorar-cursos" class="btn btn-primary">+ Nuevo curso</a>
         </div>
       </div>
 
@@ -120,74 +120,91 @@
         </button>
       </div>
 
-      <!-- Tabla de inscripciones -->
-      <div class="table-wrapper">
-        <table class="table" aria-label="Tabla de inscripciones">
-          <thead>
-            <tr>
-              <th scope="col">Curso</th>
-              <th scope="col">Docente</th>
-              <th scope="col">Fecha de inscripción</th>
-              <th scope="col">Modalidad</th>
-              <th scope="col">Progreso</th>
-              <th scope="col">Estado</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let curso of inscripcionesFiltradas">
-              <td>
-                <div class="user-cell">
-                  <div [style.background]="curso.colorFondo" style="width:42px;height:42px;border-radius:var(--border-radius);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;" aria-hidden="true">{{ curso.icono }}</div>
-                  <div class="user-info">
-                    <div class="name">{{ curso.titulo }}</div>
-                    <div class="sub">{{ curso.categoria }} · {{ curso.horas }} horas</div>
-                  </div>
-                </div>
-              </td>
-              <td>{{ curso.docente }}</td>
-              <td>{{ curso.fechaInscripcion }}</td>
-              <td><span class="badge badge-primary no-dot">{{ curso.modalidad }}</span></td>
-              <td>
-                <div style="display:flex;align-items:center;gap:var(--space-2);">
-                  <div class="progress-bar-bg" style="width:100px;" [attr.aria-label]="curso.progreso + '% completado'">
-                    <div class="progress-bar" [class.warning]="curso.progreso < 50 && curso.estado !== 'completado'" [class.success]="curso.estado === 'completado'" [style.width.%]="curso.progreso"></div>
-                  </div>
-                  <span style="font-size:var(--text-xs);font-weight:700;" [style.color]="curso.estado === 'completado' ? 'var(--success-600)' : (curso.progreso < 50 ? 'var(--warning-600)' : 'var(--primary-600)')">{{ curso.progreso }}%</span>
-                </div>
-              </td>
-              <td>
-                <span class="badge badge-success" *ngIf="curso.estado === 'completado'">Completado</span>
-                <span class="badge badge-primary" *ngIf="curso.estado === 'progreso' && curso.progreso >= 50">En progreso</span>
-                <span class="badge badge-warning" *ngIf="curso.estado === 'progreso' && curso.progreso < 50">En progreso</span>
-              </td>
-              <td>
-                <div class="td-actions">
-                  <a *ngIf="curso.estado !== 'completado'" routerLink="/admin-cursos" class="btn btn-primary btn-sm">Continuar</a>
-                  <button *ngIf="curso.estado === 'completado'" class="btn btn-success btn-sm">🏆 Certificado</button>
-                  <button class="btn btn-ghost btn-icon" title="Ver detalles" aria-label="Ver detalles del curso">ℹ️</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Estado de carga -->
+      <div *ngIf="cargando" class="card" style="text-align:center;padding:var(--space-10);">
+        <p style="color:var(--text-muted);">Cargando tus inscripciones...</p>
       </div>
 
-      <!-- Resumen estadístico -->
-      <div class="grid grid-3" style="margin-top:var(--space-8);">
-        <div class="card" style="text-align:center;">
-          <div style="font-size:2.5rem;font-weight:900;color:var(--primary-600);">S/ 450</div>
-          <div style="font-size:var(--text-sm);color:var(--text-muted);">Total invertido</div>
-        </div>
-        <div class="card" style="text-align:center;">
-          <div style="font-size:2.5rem;font-weight:900;color:var(--success-600);">87h</div>
-          <div style="font-size:var(--text-sm);color:var(--text-muted);">Horas completadas</div>
-        </div>
-        <div class="card" style="text-align:center;">
-          <div style="font-size:2.5rem;font-weight:900;color:var(--accent-600);">70%</div>
-          <div style="font-size:var(--text-sm);color:var(--text-muted);">Promedio de avance</div>
-        </div>
+      <!-- Error -->
+      <div *ngIf="!cargando && errorCarga" class="card" style="text-align:center;padding:var(--space-10);">
+        <p style="color:var(--danger-600);font-weight:600;">{{ errorCarga }}</p>
       </div>
+
+      <!-- Sin inscripciones -->
+      <div *ngIf="!cargando && !errorCarga && inscripciones.length === 0" class="card" style="text-align:center;padding:var(--space-10);">
+        <p style="color:var(--text-muted);margin-bottom:var(--space-4);">Todavía no te has inscrito a ningún curso.</p>
+        <a routerLink="/explorar-cursos" class="btn btn-primary btn-sm">+ Explorar cursos</a>
+      </div>
+
+      <ng-container *ngIf="!cargando && !errorCarga && inscripciones.length > 0">
+        <!-- Tabla de inscripciones -->
+        <div class="table-wrapper">
+          <table class="table" aria-label="Tabla de inscripciones">
+            <thead>
+              <tr>
+                <th scope="col">Curso</th>
+                <th scope="col">Docente</th>
+                <th scope="col">Fecha de inscripción</th>
+                <th scope="col">Modalidad</th>
+                <th scope="col">Progreso</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let inscripcion of inscripcionesFiltradas">
+                <td>
+                  <div class="user-cell">
+                    <div [style.background]="inscripcion.cursoId?.color" style="width:42px;height:42px;border-radius:var(--border-radius);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;" aria-hidden="true">{{ inscripcion.cursoId?.icono }}</div>
+                    <div class="user-info">
+                      <div class="name">{{ inscripcion.cursoId?.titulo }}</div>
+                      <div class="sub">{{ inscripcion.cursoId?.categoria }} · {{ inscripcion.cursoId?.horas }} horas</div>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ inscripcion.cursoId?.docente }}</td>
+                <td>{{ inscripcion.fechaInscripcion | date:'d MMM y' }}</td>
+                <td><span class="badge badge-primary no-dot">{{ inscripcion.cursoId?.modalidad }}</span></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:var(--space-2);">
+                    <div class="progress-bar-bg" style="width:100px;" [attr.aria-label]="inscripcion.progreso + '% completado'">
+                      <div class="progress-bar" [class.warning]="inscripcion.progreso < 50 && inscripcion.estado !== 'completado'" [class.success]="inscripcion.estado === 'completado'" [style.width.%]="inscripcion.progreso"></div>
+                    </div>
+                    <span style="font-size:var(--text-xs);font-weight:700;" [style.color]="inscripcion.estado === 'completado' ? 'var(--success-600)' : (inscripcion.progreso < 50 ? 'var(--warning-600)' : 'var(--primary-600)')">{{ inscripcion.progreso }}%</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge badge-success" *ngIf="inscripcion.estado === 'completado'">Completado</span>
+                  <span class="badge badge-primary" *ngIf="inscripcion.estado === 'progreso' && inscripcion.progreso >= 50">En progreso</span>
+                  <span class="badge badge-warning" *ngIf="inscripcion.estado === 'progreso' && inscripcion.progreso < 50">En progreso</span>
+                </td>
+                <td>
+                  <div class="td-actions">
+                    <button *ngIf="inscripcion.estado === 'completado'" class="btn btn-success btn-sm">🏆 Certificado</button>
+                    <button class="btn btn-ghost btn-icon" title="Cancelar inscripción" aria-label="Cancelar inscripción" (click)="cancelarInscripcion(inscripcion)">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Resumen estadístico -->
+        <div class="grid grid-3" style="margin-top:var(--space-8);">
+          <div class="card" style="text-align:center;">
+            <div style="font-size:2.5rem;font-weight:900;color:var(--primary-600);">{{ inscripciones.length }}</div>
+            <div style="font-size:var(--text-sm);color:var(--text-muted);">Cursos inscritos</div>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div style="font-size:2.5rem;font-weight:900;color:var(--success-600);">{{ totalHoras }}h</div>
+            <div style="font-size:var(--text-sm);color:var(--text-muted);">Horas totales</div>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div style="font-size:2.5rem;font-weight:900;color:var(--accent-600);">{{ promedioAvance }}%</div>
+            <div style="font-size:var(--text-sm);color:var(--text-muted);">Promedio de avance</div>
+          </div>
+        </div>
+      </ng-container>
 
     </main>
   </div>

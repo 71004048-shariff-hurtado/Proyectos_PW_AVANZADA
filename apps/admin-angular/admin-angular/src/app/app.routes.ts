@@ -9,6 +9,7 @@ import { Registro } from './components/registro/registro';
 import { DashboardEstudiante } from './components/dashboard-estudiante/dashboard-estudiante';
 import { MisInscripciones } from './components/mis-inscripciones/mis-inscripciones';
 import { Perfil } from './components/perfil/perfil';
+import { ExplorarCursos } from './components/explorar-cursos/explorar-cursos';
 import { authGuardGuard } from './guard/auth-guard-guard';
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'dashboard-estudiante', component: DashboardEstudiante, canActivate: [authGuardGuard] },
   { path: 'mis-inscripciones', component: MisInscripciones, canActivate: [authGuardGuard] },
   { path: 'perfil', component: Perfil, canActivate: [authGuardGuard] },
+  { path: 'explorar-cursos', component: ExplorarCursos, canActivate: [authGuardGuard] },
   { path: 'admin-estudiantes', component: AdminEstudiantesComponent, canActivate: [authGuardGuard] },
   { path: 'admin-docentes', component: AdminDocentesComponent, canActivate: [authGuardGuard] },
   { path: 'admin-cursos', component: AdminCursosComponent, canActivate: [authGuardGuard] },

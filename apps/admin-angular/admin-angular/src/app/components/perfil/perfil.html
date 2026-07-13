@@ -7,7 +7,7 @@
     </a>
     <ul class="navbar-nav" role="list">
       <li><a routerLink="/dashboard-estudiante">Mi panel</a></li>
-      <li><a routerLink="/admin-cursos">Explorar cursos</a></li>
+      <li><a routerLink="/explorar-cursos">Explorar cursos</a></li>
       <li><a routerLink="/mis-inscripciones">Mis inscripciones</a></li>
     </ul>
     <div class="navbar-actions">
@@ -58,9 +58,9 @@
         </a>
         <a routerLink="/mis-inscripciones">
           <span class="nav-icon" aria-hidden="true">📚</span> Mis inscripciones
-          <span class="sidebar-badge">3</span>
+          <span class="sidebar-badge">{{ totalCursos }}</span>
         </a>
-        <a routerLink="/admin-cursos">
+        <a routerLink="/explorar-cursos">
           <span class="nav-icon" aria-hidden="true">🔍</span> Explorar
         </a>
 
@@ -205,19 +205,19 @@
             <h3 class="card-title" style="margin-bottom:var(--space-5);">Mi actividad</h3>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-5);">
               <div style="padding:var(--space-4);background:var(--primary-50);border-radius:var(--border-radius);">
-                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--primary-600);">3</div>
+                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--primary-600);">{{ totalCursos }}</div>
                 <div style="font-size:var(--text-xs);color:var(--text-muted);">Cursos inscritos</div>
               </div>
               <div style="padding:var(--space-4);background:var(--success-100);border-radius:var(--border-radius);">
-                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--success-600);">1</div>
+                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--success-600);">{{ totalCompletados }}</div>
                 <div style="font-size:var(--text-xs);color:var(--text-muted);">Completados</div>
               </div>
               <div style="padding:var(--space-4);background:var(--accent-100);border-radius:var(--border-radius);">
-                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--accent-600);">87</div>
+                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--accent-600);">{{ totalHoras }}</div>
                 <div style="font-size:var(--text-xs);color:var(--text-muted);">Horas totales</div>
               </div>
               <div style="padding:var(--space-4);background:var(--warning-100);border-radius:var(--border-radius);">
-                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--warning-600);">1</div>
+                <div style="font-size:var(--text-2xl);font-weight:900;color:var(--warning-600);">{{ totalCompletados }}</div>
                 <div style="font-size:var(--text-xs);color:var(--text-muted);">Certificados</div>
               </div>
             </div>

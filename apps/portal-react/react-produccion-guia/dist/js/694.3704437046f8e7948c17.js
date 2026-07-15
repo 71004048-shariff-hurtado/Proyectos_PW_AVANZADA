@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkreact_produccion_guia=self.webpackChunkreact_produccion_guia||[]).push([[694],{694(a,c,u){u.r(c),u.d(c,{default:()=>r});var n=u(848);function r(){return(0,n.jsx)("h2",{children:"Configuracion Avanzada"})}}}]);

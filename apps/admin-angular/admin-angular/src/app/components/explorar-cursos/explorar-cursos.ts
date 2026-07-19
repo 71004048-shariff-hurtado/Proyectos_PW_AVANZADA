@@ -57,7 +57,7 @@ export class ExplorarCursos implements OnInit {
     if (this.currentUser?.id) {
       this.inscripcionService.misInscripciones(this.currentUser.id).subscribe({
         next: (inscripciones) => {
-          this.cursosInscritosIds = new Set(inscripciones.map((i) => i.cursoId._id));
+          this.cursosInscritosIds = new Set(inscripciones.map((i) => i.cursoId));
         },
         error: () => {
           // Si falla, simplemente no marcamos cursos como inscritos; el botón seguirá disponible.
@@ -92,7 +92,9 @@ export class ExplorarCursos implements OnInit {
     this.mensajeExito = '';
     this.mensajeError = '';
 
-    this.inscripcionService.inscribirse(this.currentUser.id, curso._id).subscribe({
+    this.inscripcionService
+      .inscribirse(this.currentUser.id, curso._id, curso.titulo, curso.docente)
+      .subscribe({
       next: () => {
         this.cursosInscritosIds.add(curso._id);
         this.mensajeExito = `Te inscribiste en "${curso.titulo}". Ya aparece en tu panel.`;

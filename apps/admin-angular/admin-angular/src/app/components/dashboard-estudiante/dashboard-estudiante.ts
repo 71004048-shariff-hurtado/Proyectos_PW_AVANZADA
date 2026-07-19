@@ -55,7 +55,7 @@ export class DashboardEstudiante implements OnInit {
   }
 
   get totalHoras(): number {
-    return this.inscripciones.reduce((suma, i) => suma + (i.cursoId?.horas || 0), 0);
+    return 0; // horas no está desnormalizado en inscripciones
   }
 
   toggleMenu() {

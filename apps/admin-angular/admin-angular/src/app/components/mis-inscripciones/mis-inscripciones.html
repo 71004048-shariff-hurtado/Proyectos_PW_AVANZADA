@@ -155,16 +155,16 @@
               <tr *ngFor="let inscripcion of inscripcionesFiltradas">
                 <td>
                   <div class="user-cell">
-                    <div [style.background]="inscripcion.cursoId?.color" style="width:42px;height:42px;border-radius:var(--border-radius);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;" aria-hidden="true">{{ inscripcion.cursoId?.icono }}</div>
-                    <div class="user-info">
-                      <div class="name">{{ inscripcion.cursoId?.titulo }}</div>
-                      <div class="sub">{{ inscripcion.cursoId?.categoria }} · {{ inscripcion.cursoId?.horas }} horas</div>
+                    <div style="width:42px;height:42px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:var(--border-radius);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;" aria-hidden="true">📚</div>
+                      <div class="user-info">
+                      <div class="name">{{ inscripcion.nombreCurso }}</div>
+                      <div class="sub">· Inscripto</div>
                     </div>
                   </div>
                 </td>
-                <td>{{ inscripcion.cursoId?.docente }}</td>
+                <td>{{ inscripcion.docente || '—' }}</td>
                 <td>{{ inscripcion.fechaInscripcion | date:'d MMM y' }}</td>
-                <td><span class="badge badge-primary no-dot">{{ inscripcion.cursoId?.modalidad }}</span></td>
+                <td><span class="badge badge-primary no-dot">Virtual</span></td>
                 <td>
                   <div style="display:flex;align-items:center;gap:var(--space-2);">
                     <div class="progress-bar-bg" style="width:100px;" [attr.aria-label]="inscripcion.progreso + '% completado'">

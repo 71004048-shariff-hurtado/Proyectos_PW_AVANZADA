@@ -1,0 +1,29 @@
+# Archivos de entorno — NUNCA subir al repositorio
+.env
+.env.local
+.env.production
+.env.development
+
+# Dependencias
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Archivos de caché
+.cache/

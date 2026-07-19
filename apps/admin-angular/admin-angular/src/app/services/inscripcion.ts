@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CursoDTO } from './curso';
 
 export interface InscripcionDTO {
   _id: string;
   estudianteId: string;
-  cursoId: CursoDTO;
+  cursoId: string;          // ID del curso (string, no objeto populado)
+  nombreCurso: string;      // Nombre desnormalizado para mostrar sin join
+  docente: string;
   progreso: number;
   estado: 'progreso' | 'completado';
   fechaInscripcion: string;
@@ -20,8 +21,22 @@ export class InscripcionService {
 
   constructor(private http: HttpClient) {}
 
-  inscribirse(estudianteId: string, cursoId: string): Observable<InscripcionDTO> {
-    return this.http.post<InscripcionDTO>(`${this.apiUrl}/inscripciones`, { estudianteId, cursoId });
+  /**
+   * Inscribir al estudiante en un curso.
+   * Requiere el nombre del curso para guardarlo desnormalizado.
+   */
+  inscribirse(
+    estudianteId: string,
+    cursoId: string,
+    nombreCurso: string,
+    docente: string = ''
+  ): Observable<InscripcionDTO> {
+    return this.http.post<InscripcionDTO>(`${this.apiUrl}/inscripciones`, {
+      estudianteId,
+      cursoId,
+      nombreCurso,
+      docente,
+    });
   }
 
   misInscripciones(estudianteId: string): Observable<InscripcionDTO[]> {

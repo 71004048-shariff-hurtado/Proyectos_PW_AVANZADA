@@ -1,13 +1,12 @@
 import { useContext } from 'react';
 import { CursosContext } from '../context/CursosContext';
 
-// Hook personalizado para acceder al contexto de cursos
+/**
+ * Hook personalizado para acceder al contexto de cursos.
+ * Lanza error si se usa fuera del CursosProvider.
+ */
 export function useCursos() {
-  const contexto = useContext(CursosContext);
-  
-  if (!contexto) {
-    throw new Error('useCursos debe ser usado dentro de CursosProvider');
-  }
-  
-  return contexto;
+  const ctx = useContext(CursosContext);
+  if (!ctx) throw new Error('useCursos debe usarse dentro de CursosProvider');
+  return ctx;
 }

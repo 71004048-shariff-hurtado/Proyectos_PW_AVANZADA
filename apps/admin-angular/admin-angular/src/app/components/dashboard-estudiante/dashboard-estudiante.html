@@ -145,10 +145,10 @@
 
             <!-- Cursos inscritos -->
             <div class="enrollment-row" *ngFor="let inscripcion of inscripciones">
-              <div class="enrollment-icon" [style.background]="inscripcion.cursoId?.color" aria-hidden="true">{{ inscripcion.cursoId?.icono }}</div>
-              <div class="enrollment-info">
-                <div class="title">{{ inscripcion.cursoId?.titulo }}</div>
-                <div class="meta">{{ inscripcion.cursoId?.docente }} · {{ inscripcion.cursoId?.horas }} horas · {{ inscripcion.cursoId?.modalidad }}</div>
+              <div class="enrollment-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)" aria-hidden="true">📚</div>
+                <div class="enrollment-details">
+                <div class="title">{{ inscripcion.nombreCurso }}</div>
+                <div class="meta">{{ inscripcion.docente || '—' }}</div>
               </div>
               <div class="enrollment-progress" [attr.aria-label]="'Progreso ' + inscripcion.progreso + '%'">
                 <div class="progress-container">

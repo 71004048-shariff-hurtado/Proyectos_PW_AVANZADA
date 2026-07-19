@@ -74,19 +74,19 @@
       <div class="grid grid-4" style="margin-bottom:var(--space-6);">
         <div class="stat-card">
           <div class="stat-icon blue" aria-hidden="true">👥</div>
-          <div class="stat-content"><div class="stat-label">Total registrados</div><div class="stat-value">1,240</div></div>
+          <div class="stat-content"><div class="stat-label">Total registrados</div><div class="stat-value">{{estudiantes.length}}</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon green" aria-hidden="true">✅</div>
-          <div class="stat-content"><div class="stat-label">Activos</div><div class="stat-value">1,180</div></div>
+          <div class="stat-content"><div class="stat-label">Activos</div><div class="stat-value">{{estudiantes.length}}</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon yellow" aria-hidden="true">⏳</div>
-          <div class="stat-content"><div class="stat-label">Pendientes</div><div class="stat-value">43</div></div>
+          <div class="stat-content"><div class="stat-label">Mostrados</div><div class="stat-value">{{estudiantesFiltrados.length}}</div></div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon red" aria-hidden="true">🚫</div>
-          <div class="stat-content"><div class="stat-label">Suspendidos</div><div class="stat-value">17</div></div>
+          <div class="stat-icon red" aria-hidden="true">🔍</div>
+          <div class="stat-content"><div class="stat-label">Buscados</div><div class="stat-value">{{textoBusqueda ? estudiantesFiltrados.length : '-'}}</div></div>
         </div>
       </div>
 
@@ -95,7 +95,8 @@
         <div style="display:flex;gap:var(--space-4);align-items:center;flex-wrap:wrap;">
           <div class="search-bar" style="flex:1;min-width:200px;">
             <span aria-hidden="true">🔍</span>
-            <input type="search" placeholder="Buscar por nombre, correo, programa..." aria-label="Buscar estudiante" />
+            <input type="search" placeholder="Buscar por nombre, correo, programa..." aria-label="Buscar estudiante"
+              [(ngModel)]="textoBusqueda" name="busqueda" />
           </div>
           <select class="form-control" style="width:auto;" aria-label="Filtrar por programa">
             <option>Todos los programas</option>
@@ -112,132 +113,53 @@
         </div>
       </div>
 
+      <!-- Mensajes de éxito/error -->
+      <div *ngIf="exitoMensaje" style="margin-bottom:var(--space-4);padding:var(--space-3) var(--space-4);background:#d1fae5;border:1px solid #6ee7b7;border-radius:var(--border-radius);color:#065f46;">✅ {{exitoMensaje}}</div>
+      <div *ngIf="errorCarga" style="margin-bottom:var(--space-4);padding:var(--space-3) var(--space-4);background:#fee2e2;border:1px solid #fca5a5;border-radius:var(--border-radius);color:#991b1b;">❌ {{errorCarga}}</div>
+
+      <!-- Estado de carga -->
+      <div *ngIf="cargando" style="text-align:center;padding:var(--space-12);color:var(--gray-500);"> ⏳ Cargando estudiantes...</div>
+
       <!-- Tabla -->
-      <div class="table-wrapper">
+      <div class="table-wrapper" *ngIf="!cargando">
         <table class="table" aria-label="Tabla de gestión de estudiantes">
           <thead>
             <tr>
               <th scope="col">Estudiante</th>
               <th scope="col">Programa</th>
-              <th scope="col">Inscripciones</th>
-              <th scope="col">Completados</th>
-              <th scope="col">Fecha registro</th>
-              <th scope="col">Estado</th>
+              <th scope="col">Correo</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <div class="user-cell">
-                  <div class="avatar" aria-hidden="true">CG</div>
-                  <div class="user-info"><div class="name">Carlos García</div><div class="sub">cgarcia@edutech.pe</div></div>
-                </div>
-              </td>
-              <td>Ing. de Sistemas</td>
-              <td>3</td>
-              <td>1</td>
-              <td>10 ene 2024</td>
-              <td><span class="badge badge-success">Activo</span></td>
-              <td>
-                <div class="td-actions">
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Ver perfil" aria-label="Ver perfil">👁️</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Editar" aria-label="Editar">✏️</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Suspender" aria-label="Suspender" style="color:var(--warning-600);">🔕</button>
-                </div>
-              </td>
+            <tr *ngIf="estudiantesFiltrados.length === 0">
+              <td colspan="4" style="text-align:center;padding:var(--space-8);color:var(--gray-500);"> 📭 No se encontraron estudiantes.</td>
             </tr>
-            <tr>
+            <tr *ngFor="let est of estudiantesFiltrados">
               <td>
                 <div class="user-cell">
-                  <div class="avatar" style="background:linear-gradient(135deg,#7c3aed,#ec4899);" aria-hidden="true">AL</div>
-                  <div class="user-info"><div class="name">Andrea López</div><div class="sub">alopez@edutech.pe</div></div>
+                  <div class="avatar" aria-hidden="true">{{est.nombre?.charAt(0)}}{{est.apellidos?.charAt(0)}}</div>
+                  <div class="user-info">
+                    <div class="name">{{est.nombre}} {{est.apellidos}}</div>
+                    <div class="sub">{{est.correo_electronico}}</div>
+                  </div>
                 </div>
               </td>
-              <td>Ing. Informática</td>
-              <td>2</td>
-              <td>2</td>
-              <td>15 ene 2024</td>
-              <td><span class="badge badge-success">Activo</span></td>
+              <td>{{est.programa_academico || '—'}}</td>
+              <td>{{est.correo_electronico}}</td>
               <td>
                 <div class="td-actions">
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Ver perfil" aria-label="Ver perfil">👁️</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Editar" aria-label="Editar">✏️</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Suspender" aria-label="Suspender" style="color:var(--warning-600);">🔕</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="user-cell">
-                  <div class="avatar" style="background:linear-gradient(135deg,#059669,#0891b2);" aria-hidden="true">RM</div>
-                  <div class="user-info"><div class="name">Roberto Méndez</div><div class="sub">rmendez@edutech.pe</div></div>
-                </div>
-              </td>
-              <td>Ing. de Software</td>
-              <td>1</td>
-              <td>0</td>
-              <td>20 feb 2024</td>
-              <td><span class="badge badge-warning">Pendiente</span></td>
-              <td>
-                <div class="td-actions">
-                  <button class="btn btn-success btn-sm" aria-label="Aprobar estudiante">Aprobar</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Ver perfil" aria-label="Ver perfil">👁️</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="user-cell">
-                  <div class="avatar" style="background:linear-gradient(135deg,#d97706,#f59e0b);" aria-hidden="true">SC</div>
-                  <div class="user-info"><div class="name">Sofía Castillo</div><div class="sub">scastillo@edutech.pe</div></div>
-                </div>
-              </td>
-              <td>Ing. de Sistemas</td>
-              <td>4</td>
-              <td>3</td>
-              <td>05 feb 2024</td>
-              <td><span class="badge badge-success">Activo</span></td>
-              <td>
-                <div class="td-actions">
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Ver perfil" aria-label="Ver perfil">👁️</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Editar" aria-label="Editar">✏️</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" title="Suspender" aria-label="Suspender" style="color:var(--warning-600);">🔕</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="user-cell">
-                  <div class="avatar" style="background:var(--gray-400);" aria-hidden="true">MF</div>
-                  <div class="user-info"><div class="name">Miguel Flores</div><div class="sub">mflores@edutech.pe</div></div>
-                </div>
-              </td>
-              <td>Ing. Informática</td>
-              <td>1</td>
-              <td>0</td>
-              <td>01 mar 2024</td>
-              <td><span class="badge badge-danger">Suspendido</span></td>
-              <td>
-                <div class="td-actions">
-                  <button class="btn btn-ghost btn-sm" aria-label="Reactivar estudiante">Reactivar</button>
-                  <button class="btn btn-ghost btn-icon btn-sm" style="color:var(--danger-600);" aria-label="Eliminar">🗑️</button>
+                  <button class="btn btn-ghost btn-icon btn-sm" title="Eliminar" aria-label="Eliminar estudiante"
+                    style="color:var(--danger-600);" (click)="eliminarEstudiante(est)">🗑️</button>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+        <p style="margin-top:var(--space-4);color:var(--gray-500);font-size:var(--text-sm);">Mostrando {{estudiantesFiltrados.length}} de {{estudiantes.length}} estudiantes</p>
       </div>
-
-      <nav class="pagination" aria-label="Paginación">
-        <button class="page-btn" disabled>‹</button>
-        <button class="page-btn active" aria-current="page">1</button>
-        <button class="page-btn">2</button>
-        <button class="page-btn">...</button>
-        <button class="page-btn">24</button>
-        <button class="page-btn">›</button>
-      </nav>
 
     </main>
   </div>
 </div>
+

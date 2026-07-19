@@ -63,7 +63,8 @@ export class MisInscripciones implements OnInit {
   }
 
   get totalHoras(): number {
-    return this.inscripciones.reduce((suma, i) => suma + (i.cursoId?.horas || 0), 0);
+    // horas no está desnormalizado en el modelo; se muestra como 0 hasta que se agregue
+    return 0;
   }
 
   get promedioAvance(): number {
@@ -77,7 +78,8 @@ export class MisInscripciones implements OnInit {
   }
 
   cancelarInscripcion(inscripcion: InscripcionDTO) {
-    const confirmado = confirm(`¿Deseas darte de baja de "${inscripcion.cursoId?.titulo}"?`);
+    const nombreCurso = inscripcion.nombreCurso || 'este curso';
+    const confirmado = confirm(`¿Deseas darte de baja de "${nombreCurso}"?`);
     if (!confirmado) return;
 
     this.inscripcionService.cancelar(inscripcion._id).subscribe({

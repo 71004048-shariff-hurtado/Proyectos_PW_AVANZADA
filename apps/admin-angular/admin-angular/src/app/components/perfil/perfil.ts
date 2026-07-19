@@ -41,7 +41,7 @@ export class Perfil implements OnInit {
   }
 
   get totalHoras(): number {
-    return this.inscripciones.reduce((suma, i) => suma + (i.cursoId?.horas || 0), 0);
+    return 0; // horas no está desnormalizado en el modelo de inscripción
   }
 
   toggleMenu() {

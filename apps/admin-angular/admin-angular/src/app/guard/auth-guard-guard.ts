@@ -33,7 +33,7 @@ export const authGuardGuard: CanActivateFn = (route, state) => {
   const estudianteRoutes = ['/dashboard-estudiante', '/mis-inscripciones', '/perfil', '/explorar-cursos'];
   const esRutaEstudiante = estudianteRoutes.some((r) => url.startsWith(r));
 
-  if (esRutaEstudiante && role !== 'estudiante') {
+  if (esRutaEstudiante && role !== 'student') {
     return router.navigate([role === 'admin' ? '/admin-dashboard' : '/dashboard-docente']);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -27,7 +27,8 @@ export class AdminDocentesComponent implements OnInit {
 
   constructor(
     private docenteService: DocenteService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.docenteForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -96,14 +97,16 @@ export class AdminDocentesComponent implements OnInit {
         next: (actualizado) => {
           this.exitoMensaje = `Docente "${actualizado.nombre}" actualizado correctamente.`;
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
           this.cargarDocentes(); // Actualización en tiempo real
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
           this.errorCarga = err?.error?.error || 'Error al actualizar.';
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
         },
       });
     } else {
@@ -111,14 +114,16 @@ export class AdminDocentesComponent implements OnInit {
         next: (nuevo) => {
           this.exitoMensaje = `Docente "${nuevo.nombre}" creado exitosamente.`;
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
           this.cargarDocentes(); // Actualización en tiempo real
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
           this.errorCarga = err?.error?.error || 'Error al crear.';
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
         },
       });
     }

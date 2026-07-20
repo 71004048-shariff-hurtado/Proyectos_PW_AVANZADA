@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -38,7 +38,8 @@ export class AdminCursosComponent implements OnInit {
   constructor(
     private cursoService: CursoService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.cursoForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.minLength(3)]],
@@ -159,14 +160,16 @@ export class AdminCursosComponent implements OnInit {
           const idx = this.cursos.findIndex((c) => c._id === this.cursoEditandoId);
           if (idx !== -1) this.cursos[idx] = actualizado;
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
           this.exitoMensaje = `Curso "${actualizado.titulo}" actualizado correctamente.`;
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
           this.errorCarga = err?.error?.error || 'Error al actualizar el curso.';
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
         },
       });
     } else {
@@ -174,14 +177,16 @@ export class AdminCursosComponent implements OnInit {
         next: (nuevo) => {
           this.cursos.unshift(nuevo);
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
           this.exitoMensaje = `Curso "${nuevo.titulo}" creado exitosamente.`;
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
           this.errorCarga = err?.error?.error || 'Error al crear el curso.';
           this.guardando = false;
-          this.mostrarModal = false;
+          this.cerrarModal();
+          this.cdr.detectChanges();
         },
       });
     }

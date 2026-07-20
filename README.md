@@ -323,11 +323,14 @@ Abre estas URLs en tu navegador y confirma que respondan:
 | **Email** | `docente@edutech.pe` |
 | **Contraseña** | `Docente123!` |
 | **Portal** | Angular → `http://localhost:4200/login` |
-| **Redirige a** | `/dashboard-estudiante` |
+| **Redirige a** | `/dashboard-docente` |
 
-**Vistas disponibles:**
-- Mismas vistas que el estudiante (explorar cursos, inscripciones, perfil)
-- Sus datos aparecen en el panel de admin: `/admin-docentes`
+**Vistas exclusivas del Docente:**
+- 🏠 `/dashboard-docente` — Resumen estadístico (Cursos asignados, total de estudiantes).
+- 📚 `/mis-cursos-docente` — Vista detallada de los cursos que imparte el profesor.
+- 👥 `/mis-alumnos` — Tabla de estudiantes inscritos en sus cursos, mostrando progreso y estado.
+
+> El administrador gestiona a los docentes desde su panel (`/admin-docentes`), pero el docente tiene su propio entorno totalmente separado de los estudiantes.
 
 ---
 
@@ -351,15 +354,20 @@ Abre estas URLs en tu navegador y confirma que respondan:
     URL: http://localhost:4200/login
     Email: admin_321@hotmail.com / Contraseña: qTg_!32$Wr
 
-[6] Gestionar cursos (CRUD completo)
-    URL: http://localhost:4200/admin-cursos
-    → Crear nuevo curso con el botón "+ Nuevo curso"
-    → Editar con ✏️ / Eliminar con 🗑️
+[6] Cerrar sesión e iniciar como DOCENTE
+    URL: http://localhost:4200/login
+    Email: docente@edutech.pe / Contraseña: Docente123!
+    → Ver dashboard de docente, revisar cursos asignados y tabla de estudiantes.
 
-[7] Ver estudiantes registrados
-    URL: http://localhost:4200/admin-estudiantes
+[7] Cerrar sesión e iniciar como ADMIN
+    URL: http://localhost:4200/login
+    Email: admin_321@hotmail.com / Contraseña: qTg_!32$Wr
 
-[8] Catálogo público (sin login, Next.js)
+[8] Gestionar plataforma (CRUD completo)
+    URL: http://localhost:4200/admin-cursos (Agregar/Editar cursos)
+    URL: http://localhost:4200/admin-docentes (Agregar/Editar docentes)
+
+[9] Ver catálogo público (sin login, Next.js)
     URL: http://localhost:3002
 ```
 
@@ -377,6 +385,7 @@ Abre estas URLs en tu navegador y confirma que respondan:
 | `DELETE` | `/api/usuarios/:id` | ✅ Admin | Eliminar usuario |
 | `POST` | `/api/inscripciones` | ✅ Token | Inscribirse a un curso |
 | `GET` | `/api/inscripciones/estudiante/:id` | ✅ Token | Ver mis inscripciones |
+| `GET` | `/api/inscripciones/docente/:nombre`| ✅ Token | Ver estudiantes de un docente |
 | `DELETE` | `/api/inscripciones/:id` | ✅ Token | Cancelar inscripción |
 
 ### Cursos / Docentes — Puerto 3001
@@ -384,10 +393,14 @@ Abre estas URLs en tu navegador y confirma que respondan:
 | Método | Ruta | Auth requerido | Descripción |
 |--------|------|----------------|-------------|
 | `GET` | `/api/cursos` | ❌ | Listar todos los cursos |
+| `GET` | `/api/cursos/docente/:nombre` | ✅ Token | Listar cursos que imparte un docente |
 | `POST` | `/api/cursos` | ✅ Admin | Crear curso |
 | `PUT` | `/api/cursos/:id` | ✅ Admin | Actualizar curso |
 | `DELETE` | `/api/cursos/:id` | ✅ Admin | Eliminar curso |
 | `GET` | `/api/docentes` | ❌ | Listar docentes |
+| `POST` | `/api/docentes` | ✅ Admin | Crear docente |
+| `PUT` | `/api/docentes/:id` | ✅ Admin | Actualizar docente |
+| `DELETE` | `/api/docentes/:id` | ✅ Admin | Eliminar docente |
 
 ---
 

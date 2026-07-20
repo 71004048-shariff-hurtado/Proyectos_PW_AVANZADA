@@ -10,6 +10,9 @@ import { DashboardEstudiante } from './components/dashboard-estudiante/dashboard
 import { MisInscripciones } from './components/mis-inscripciones/mis-inscripciones';
 import { Perfil } from './components/perfil/perfil';
 import { ExplorarCursos } from './components/explorar-cursos/explorar-cursos';
+import { DashboardDocente } from './components/dashboard-docente/dashboard-docente.component';
+import { MisCursosDocente } from './components/mis-cursos-docente/mis-cursos-docente.component';
+import { MisAlumnosComponent } from './components/mis-alumnos/mis-alumnos.component';
 import { authGuardGuard } from './guard/auth-guard-guard';
 
 export const routes: Routes = [
@@ -20,6 +23,11 @@ export const routes: Routes = [
   { path: 'mis-inscripciones', component: MisInscripciones, canActivate: [authGuardGuard] },
   { path: 'perfil', component: Perfil, canActivate: [authGuardGuard] },
   { path: 'explorar-cursos', component: ExplorarCursos, canActivate: [authGuardGuard] },
+  
+  { path: 'dashboard-docente', component: DashboardDocente, canActivate: [authGuardGuard] },
+  { path: 'mis-cursos-docente', component: MisCursosDocente, canActivate: [authGuardGuard] },
+  { path: 'mis-alumnos', component: MisAlumnosComponent, canActivate: [authGuardGuard] },
+
   { path: 'admin-estudiantes', component: AdminEstudiantesComponent, canActivate: [authGuardGuard] },
   { path: 'admin-docentes', component: AdminDocentesComponent, canActivate: [authGuardGuard] },
   { path: 'admin-cursos', component: AdminCursosComponent, canActivate: [authGuardGuard] },

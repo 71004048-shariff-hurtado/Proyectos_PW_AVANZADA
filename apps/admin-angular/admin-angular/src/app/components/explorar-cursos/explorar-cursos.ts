@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Curso as CursoService, CursoDTO } from '../../services/curso';
 import { InscripcionService } from '../../services/inscripcion';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-explorar-cursos',
@@ -31,7 +32,8 @@ export class ExplorarCursos implements OnInit {
   constructor(
     private cursoService: CursoService,
     private inscripcionService: InscripcionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -99,6 +101,9 @@ export class ExplorarCursos implements OnInit {
         this.cursosInscritosIds.add(curso._id);
         this.mensajeExito = `Te inscribiste en "${curso.titulo}". Ya aparece en tu panel.`;
         this.inscribiendoId = null;
+        setTimeout(() => {
+          this.router.navigate(['/mis-inscripciones']);
+        }, 1500); // 1.5 second delay so they can see the success message
       },
       error: (err) => {
         this.mensajeError = err?.error?.error || 'No se pudo completar la inscripción.';

@@ -36,7 +36,7 @@ export class Login {
         if (res.role === 'admin') {
           this.router.navigate(['/admin-dashboard']);
         } else if (res.role === 'docente') {
-          this.router.navigate(['/dashboard-estudiante']);
+          this.router.navigate(['/dashboard-docente']);
         } else {
           this.router.navigate(['/dashboard-estudiante']);
         }

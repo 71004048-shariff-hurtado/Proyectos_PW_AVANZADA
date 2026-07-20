@@ -5,12 +5,14 @@ const { verificarToken, soloAdmin } = require('../middlewares/authMiddleware');
 const {
     crear,
     listar,
+    listarPorDocente,
     actualizar,
     eliminar
 } = require('../controllers/cursoController');
 
 // GET es público (catálogo accesible sin login)
 router.get('/cursos', listar);
+router.get('/cursos/docente/:nombre', listarPorDocente);
 
 // Operaciones de escritura solo para admin autenticado
 router.post('/cursos', verificarToken, soloAdmin, crear);

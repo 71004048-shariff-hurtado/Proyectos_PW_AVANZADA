@@ -161,6 +161,7 @@ export class AdminCursosComponent implements OnInit {
           this.guardando = false;
           this.mostrarModal = false;
           this.exitoMensaje = `Curso "${actualizado.titulo}" actualizado correctamente.`;
+          this.cargarCursos(); // Refresh the list from the backend
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
@@ -175,6 +176,7 @@ export class AdminCursosComponent implements OnInit {
           this.guardando = false;
           this.mostrarModal = false;
           this.exitoMensaje = `Curso "${nuevo.titulo}" creado exitosamente.`;
+          this.cargarCursos(); // Refresh the list from the backend
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {

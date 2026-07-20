@@ -48,6 +48,10 @@ export class Curso {
     return this.http.get<CursoDTO[]>(`${this.apiUrl}/cursos`);
   }
 
+  listarCursosDocente(nombre: string): Observable<CursoDTO[]> {
+    return this.http.get<CursoDTO[]>(`${this.apiUrl}/cursos/docente/${nombre}`);
+  }
+
   crearCurso(datos: CrearCursoDTO): Observable<CursoDTO> {
     return this.http.post<CursoDTO>(`${this.apiUrl}/cursos`, datos, {
       headers: this.authHeaders(),

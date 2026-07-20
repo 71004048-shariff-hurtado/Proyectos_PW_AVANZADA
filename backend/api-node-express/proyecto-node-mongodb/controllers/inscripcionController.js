@@ -46,6 +46,25 @@ exports.misInscripciones = async (req, res) => {
 };
 
 /**
+ * GET /api/inscripciones/docente/:nombre
+ * Obtener todas las inscripciones en los cursos de un docente.
+ */
+exports.inscripcionesPorDocente = async (req, res) => {
+  try {
+    const nombreDocente = req.params.nombre;
+    const inscripciones = await Inscripcion.find({
+      docente: { $regex: new RegExp(nombreDocente, 'i') }
+    })
+    .populate('estudianteId', 'nombre apellidos correo_electronico programa_academico')
+    .sort({ fechaInscripcion: -1 });
+
+    res.json(inscripciones);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/**
  * GET /api/inscripciones
  * Listar todas las inscripciones (solo admin).
  */

@@ -22,6 +22,21 @@ exports.listar = async (req, res) =>{
     }
 };
 
+exports.listarPorDocente = async (req, res) => {
+    try {
+        const nombreDocente = req.params.nombre;
+        // Search courses where docente field matches or includes the name
+        const cursos = await Curso.find({ 
+            docente: { $regex: new RegExp(nombreDocente, 'i') } 
+        });
+        res.json(cursos);
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
+};
+
 exports.actualizar = async(req, res) =>{
     try {
         const actualizado = await Curso.findByIdAndUpdate(

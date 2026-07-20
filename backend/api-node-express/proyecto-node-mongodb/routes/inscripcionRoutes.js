@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   inscribirse,
   misInscripciones,
+  inscripcionesPorDocente,
   listarTodas,
   actualizarProgreso,
   cancelar,
@@ -17,6 +18,9 @@ router.post('/inscripciones', inscribirse);
 
 // Ver mis inscripciones (el estudiante solo puede ver las suyas)
 router.get('/inscripciones/estudiante/:estudianteId', misInscripciones);
+
+// Ver inscripciones de un docente (el docente solo puede ver las suyas)
+router.get('/inscripciones/docente/:nombre', inscripcionesPorDocente);
 
 // Actualizar progreso de una inscripción
 router.put('/inscripciones/:id/progreso', actualizarProgreso);

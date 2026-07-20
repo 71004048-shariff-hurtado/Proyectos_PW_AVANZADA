@@ -25,17 +25,24 @@ export const authGuardGuard: CanActivateFn = (route, state) => {
   const esRutaAdmin = adminRoutes.some((r) => url.startsWith(r));
 
   if (esRutaAdmin && role !== 'admin') {
-    // Estudiante intentando acceder a ruta de admin → lo manda al panel del estudiante
-    return router.navigate(['/dashboard-estudiante']);
+    // Redirigir según rol
+    return router.navigate([role === 'docente' ? '/dashboard-docente' : '/dashboard-estudiante']);
   }
 
-  // Rutas de estudiante: no deben ser accesibles para admin (opcional)
+  // Rutas de estudiante
   const estudianteRoutes = ['/dashboard-estudiante', '/mis-inscripciones', '/perfil', '/explorar-cursos'];
   const esRutaEstudiante = estudianteRoutes.some((r) => url.startsWith(r));
 
-  if (esRutaEstudiante && role === 'admin') {
-    // Admin intentando acceder a panel de estudiante → lo manda al dashboard admin
-    return router.navigate(['/admin-dashboard']);
+  if (esRutaEstudiante && role !== 'estudiante') {
+    return router.navigate([role === 'admin' ? '/admin-dashboard' : '/dashboard-docente']);
+  }
+
+  // Rutas de docente
+  const docenteRoutes = ['/dashboard-docente', '/mis-cursos-docente', '/mis-alumnos'];
+  const esRutaDocente = docenteRoutes.some((r) => url.startsWith(r));
+
+  if (esRutaDocente && role !== 'docente') {
+    return router.navigate([role === 'admin' ? '/admin-dashboard' : '/dashboard-estudiante']);
   }
 
   return true;

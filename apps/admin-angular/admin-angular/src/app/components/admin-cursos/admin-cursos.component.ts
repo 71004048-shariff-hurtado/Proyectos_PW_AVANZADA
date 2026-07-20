@@ -161,12 +161,12 @@ export class AdminCursosComponent implements OnInit {
           this.guardando = false;
           this.mostrarModal = false;
           this.exitoMensaje = `Curso "${actualizado.titulo}" actualizado correctamente.`;
-          this.cargarCursos(); // Refresh the list from the backend
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
-          this.errorFormulario = err?.error?.error || 'Error al actualizar el curso.';
+          this.errorCarga = err?.error?.error || 'Error al actualizar el curso.';
           this.guardando = false;
+          this.mostrarModal = false;
         },
       });
     } else {
@@ -176,12 +176,12 @@ export class AdminCursosComponent implements OnInit {
           this.guardando = false;
           this.mostrarModal = false;
           this.exitoMensaje = `Curso "${nuevo.titulo}" creado exitosamente.`;
-          this.cargarCursos(); // Refresh the list from the backend
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
-          this.errorFormulario = err?.error?.error || 'Error al crear el curso.';
+          this.errorCarga = err?.error?.error || 'Error al crear el curso.';
           this.guardando = false;
+          this.mostrarModal = false;
         },
       });
     }

@@ -101,8 +101,9 @@ export class AdminDocentesComponent implements OnInit {
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
-          this.errorFormulario = err?.error?.error || 'Error al actualizar.';
+          this.errorCarga = err?.error?.error || 'Error al actualizar.';
           this.guardando = false;
+          this.mostrarModal = false;
         },
       });
     } else {
@@ -115,8 +116,9 @@ export class AdminDocentesComponent implements OnInit {
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
-          this.errorFormulario = err?.error?.error || 'Error al crear.';
+          this.errorCarga = err?.error?.error || 'Error al crear.';
           this.guardando = false;
+          this.mostrarModal = false;
         },
       });
     }

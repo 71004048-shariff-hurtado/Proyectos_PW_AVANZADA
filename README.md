@@ -336,13 +336,6 @@ Abre estas URLs en tu navegador y confirma que respondan:
 
 ## 🌐 Flujo completo demostrable
 
-> **⚠️ IMPORTANTE: SI TE SALE "CREDENCIALES INVÁLIDAS" EN ESTUDIANTE O DOCENTE**
-> Significa que esos usuarios **aún no existen en tu base de datos de MongoDB**. Para solucionarlo, DEBES ejecutar el script que los crea. En una terminal, ve a la carpeta raíz del proyecto y ejecuta:
-> ```bash
-> node backend/api-node-express/proyecto-node-mongodb/scripts/seed-usuarios.js
-> ```
-> *(Verás un mensaje diciendo "Creado: estudiante@edutech.pe"). Tras esto, el login funcionará perfectamente.*
-
 ```
 [1] Iniciar sesión como ESTUDIANTE
     URL: http://localhost:4200/login

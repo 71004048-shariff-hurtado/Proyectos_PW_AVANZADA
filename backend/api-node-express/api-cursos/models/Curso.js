@@ -1,30 +1,50 @@
 const mongoose = require('mongoose');
 
 const cursosSchema = new mongoose.Schema({
-    curso:{
+    titulo: {
         type: String,
-        required: true
+        required: [true, 'El título es obligatorio']
     },
-    docente:{
+    docente: {
         type: String,
-        required: true
+        required: [true, 'El docente es obligatorio']
     },
-    categorias:{
+    categoria: {
         type: String,
-        required: true
+        required: [true, 'La categoría es obligatoria']
     },
-    insctritos:{
-        type: String,
-        required: true
+    horas: {
+        type: Number,
+        required: [true, 'Las horas son obligatorias'],
+        min: 1
     },
-    precio:{
+    modalidad: {
         type: String,
-        required: true
+        enum: ['Virtual', 'Presencial', 'Híbrida'],
+        default: 'Virtual'
     },
-    estado:{
+    precio: {
+        type: Number,
+        required: [true, 'El precio es obligatorio'],
+        min: 0
+    },
+    descripcion: {
         type: String,
-        required: true
+        default: ''
+    },
+    estado: {
+        type: String,
+        enum: ['Activo', 'Inactivo', 'Borrador'],
+        default: 'Activo'
+    },
+    icono: {
+        type: String,
+        default: '📚'
+    },
+    color: {
+        type: String,
+        default: 'linear-gradient(135deg,#1a1a2e,#7c3aed)'
     }
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model('Cursos',cursosSchema);
+module.exports = mongoose.model('Cursos', cursosSchema);

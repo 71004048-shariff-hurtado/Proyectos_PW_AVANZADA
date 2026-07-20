@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../models/Usuario');
 const UsuarioEstudiante = require('../models/UsuarioEstudiante');
+const UsuarioDocente = require('../models/UsuarioDocente');
 const Administrador = require('../models/Administrador');
 
 // Función helper para generar JWT
@@ -62,6 +63,28 @@ exports.loginUsuario = async (req, res) => {
           apellidos: estudiante.apellidos,
           correo_electronico: estudiante.correo_electronico,
           programa_academico: estudiante.programa_academico,
+        },
+      });
+    }
+
+    // Verificar si es docente
+    const docente = await UsuarioDocente.findOne({ correo_electronico: email });
+    if (docente) {
+      const coincide = await bcrypt.compare(password, docente.contraseña);
+      if (!coincide) {
+        return res.status(401).json({ error: 'Credenciales inválidas.' });
+      }
+      const token = generarToken({ id: docente._id, role: 'docente' });
+      return res.json({
+        msg: 'Login correcto',
+        token,
+        role: 'docente',
+        user: {
+          id: docente._id,
+          nombre: docente.nombre,
+          apellidos: docente.apellidos,
+          correo_electronico: docente.correo_electronico,
+          especialidad: docente.especialidad,
         },
       });
     }

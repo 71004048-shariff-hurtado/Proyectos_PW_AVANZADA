@@ -22,7 +22,7 @@
 
 ## 📋 Descripción
 
-EduTech es una plataforma web moderna que permite la gestión integral de cursos académicos. Estudiantes pueden explorar e inscribirse en cursos, administradores gestionan el catálogo completo, y docentes son registrados en el sistema por el equipo técnico.
+EduTech es una plataforma web moderna que permite la gestión integral de cursos académicos. Estudiantes pueden explorar e inscribirse en cursos, administradores gestionan el catálogo completo, y docentes son registrados en el sistema.
 
 ---
 
@@ -42,7 +42,6 @@ EduTech es una plataforma web moderna que permite la gestión integral de cursos
             │                   │                   │
 ┌───────────▼───────────────────▼───────────────────▼─────────────┐
 │                        BACKENDS (REST API)                        │
-│                                                                   │
 │  ┌─────────────────────────────┐  ┌──────────────────────────┐   │
 │  │  Auth / Usuarios / Inscrip. │  │  Cursos / Docentes       │   │
 │  │  Node.js + Express          │  │  Node.js + Express       │   │
@@ -54,8 +53,6 @@ EduTech es una plataforma web moderna que permite la gestión integral de cursos
                   ┌─────────────────────────┐
                   │      MongoDB Local      │
                   │  localhost:27017        │
-                  │  BD: database_proyecto_ │
-                  │       final            │
                   └─────────────────────────┘
 ```
 
@@ -68,18 +65,32 @@ EduTech es una plataforma web moderna que permite la gestión integral de cursos
 | Panel Admin + Vista Alumno | Angular 19, TypeScript, Reactive Forms |
 | Portal Estudiante | React 18, Vite, Context API, React Router |
 | Catálogo Público | Next.js 15, App Router, SSR/SSG (ISR) |
-| Backend Auth/Inscripciones | Node.js, Express 5, JWT, bcrypt |
-| Backend Cursos/Docentes | Node.js, Express 5, JWT (verificación) |
+| Backend Auth/Inscripciones | Node.js, Express, JWT, bcrypt |
+| Backend Cursos/Docentes | Node.js, Express, JWT (verificación) |
 | Base de Datos | MongoDB (local: `localhost:27017`) |
 | Seguridad | Helmet, CORS restringido, JWT, bcrypt |
 
 ---
 
-## 🚀 Instalación y ejecución — Paso a paso
+## 🚀 Guía de instalación y ejecución
 
+> **Lee esto completo antes de empezar.** Saltarse algún paso es la causa más común de errores.
 
-> ⚠️ **Requisito previo:** Tener **MongoDB corriendo** en `localhost:27017` antes de iniciar cualquier backend.
-> Puedes usar **MongoDB Compass** o el servicio `mongod` desde la terminal.
+---
+
+### ✅ Requisitos previos
+
+Asegúrate de tener instalado lo siguiente **antes de comenzar**:
+
+| Herramienta | Versión mínima | Verificar con |
+|-------------|---------------|---------------|
+| Node.js | 18 o superior | `node -v` |
+| npm | 9 o superior | `npm -v` |
+| MongoDB Community | 6 o superior | Abrir MongoDB Compass |
+| Angular CLI | 17 o superior | `npx ng version` |
+| Git | cualquiera | `git --version` |
+
+---
 
 ### PASO 1 — Clonar el repositorio
 
@@ -90,21 +101,33 @@ cd Proyectos_PW_AVANZADA
 
 ---
 
-### PASO 2 — Configurar las variables de entorno
+### PASO 2 — Iniciar MongoDB
 
-Cada backend tiene su propio `.env`. Copia los ejemplos:
+> ⚠️ **CRÍTICO:** MongoDB debe estar corriendo **antes** de ejecutar cualquier backend o el seed. Sin esto, los servidores se caen al instante.
 
-```bash
-# Backend Auth (puerto 3000)
-cd backend/api-node-express/proyecto-node-mongodb
-cp .env.example .env
+**Opción A — Con MongoDB Compass (recomendado):**
+1. Abre MongoDB Compass
+2. Conéctate a `mongodb://localhost:27017`
+3. Deja Compass abierto mientras trabajas
 
-# Backend Cursos (puerto 3001)
-cd ../api-cursos
-cp .env.example .env
+**Opción B — Con el servicio de Windows:**
+```powershell
+# Iniciar MongoDB como servicio (ejecutar como Administrador)
+net start MongoDB
 ```
 
-Los `.env` ya vienen configurados para MongoDB local. Solo necesitas asegurarte de que los valores sean:
+**Opción C — Desde la terminal:**
+```bash
+mongod --dbpath "C:/data/db"
+```
+
+✅ Sabrás que funciona cuando puedas abrir `mongodb://localhost:27017` en Compass sin error.
+
+---
+
+### PASO 3 — Configurar variables de entorno (.env)
+
+Los `.env` ya existen en el proyecto con los valores correctos para local. Solo verifica que estén así:
 
 **`backend/api-node-express/proyecto-node-mongodb/.env`**
 ```
@@ -120,107 +143,135 @@ PORT=3001
 JWT_SECRET=proyecto_final_pw2_clave_secreta_desarrollo_2024
 ```
 
+> Si no existen los `.env`, cópialos desde los `.env.example`:
+> ```bash
+> cp backend/api-node-express/proyecto-node-mongodb/.env.example backend/api-node-express/proyecto-node-mongodb/.env
+> cp backend/api-node-express/api-cursos/.env.example backend/api-node-express/api-cursos/.env
+> ```
+
 ---
 
-### PASO 3 — Instalar dependencias de los backends
+### PASO 4 — Instalar dependencias
+
+Abre una terminal y ejecuta cada bloque **en orden**:
 
 ```bash
-# Backend Auth
+# Backend Auth (puerto 3000)
 cd backend/api-node-express/proyecto-node-mongodb
 npm install
 
-# Backend Cursos
+# Backend Cursos (puerto 3001)
 cd ../api-cursos
 npm install
-```
 
----
-
-### PASO 4 — Crear usuarios de prueba (SEED)
-
-> ⚠️ **Este paso requiere que MongoDB esté corriendo.**
-
-```bash
-cd backend/api-node-express/proyecto-node-mongodb
-node scripts/seed-usuarios.js
-```
-
-Este script crea automáticamente los 3 usuarios de prueba con contraseñas hasheadas (bcrypt).
-Si alguno ya existe, lo omite sin error. Es seguro ejecutarlo múltiples veces.
-
----
-
-### PASO 5 — Iniciar los backends
-
-Abre **2 terminales** y ejecuta cada una:
-
-```bash
-# Terminal 1 — Backend Auth/Inscripciones (puerto 3000)
-cd backend/api-node-express/proyecto-node-mongodb
-node server.js
-# Debe mostrar: ✅ Conectado a MongoDB | Servidor en puerto 3000
-
-# Terminal 2 — Backend Cursos/Docentes (puerto 3001)
-cd backend/api-node-express/api-cursos
-node server.js
-# Debe mostrar: Conectado a MongoDB | Servidor en puerto 3001
-```
-
----
-
-### PASO 6 — Instalar dependencias de los frontends
-
-```bash
-# Angular
-cd apps/admin-angular/admin-angular
+# Angular (panel admin + estudiante)
+cd ../../apps/admin-angular/admin-angular
 npm install
 
-# React
+# React (portal estudiante)
 cd ../../portal-react/react-spa-proyectoFinal
 npm install
 
-# Next.js (opcional)
+# Next.js (catálogo público) — opcional
 cd ../../mi-proyecto-next
 npm install
 ```
 
 ---
 
-### PASO 7 — Iniciar los frontends
+### PASO 5 — Crear usuarios de prueba (SEED) ⭐
 
-Abre **2 terminales adicionales** (o 3 si quieres Next.js también):
+> ⚠️ **OBLIGATORIO.** Sin este paso los usuarios estudiante y docente no existen en la BD y no podrás iniciar sesión con ellos.
+>
+> Este paso también migra la contraseña del admin real (`admin_321@hotmail.com`) a bcrypt si aún está en texto plano.
+
+Con **MongoDB corriendo** (Paso 2), ejecuta:
 
 ```bash
-# Terminal 3 — Portal React - Estudiante (puerto 5173)
+cd backend/api-node-express/proyecto-node-mongodb
+node scripts/seed-usuarios.js
+```
+
+Debes ver en la consola algo como:
+```
+✅ Conectado.
+🔑 Verificando admin real... → contraseña migrada / ya hasheada
+👨‍🎓 Procesando estudiante... → ✅ Creado
+👩‍🏫 Procesando docente...    → ✅ Creado
+🎉 Seed completado.
+```
+
+> Es seguro ejecutarlo múltiples veces. Si el usuario ya existe, lo omite.
+
+---
+
+### PASO 6 — Iniciar los backends
+
+Abre **2 terminales separadas** y ejecuta una en cada una:
+
+```bash
+# ── TERMINAL 1 ── Backend Auth / Usuarios / Inscripciones (puerto 3000)
+cd backend/api-node-express/proyecto-node-mongodb
+node server.js
+```
+✅ Debe mostrar: `Servidor corriendo en el puerto 3000` y `Conectado a MongoDB`
+
+```bash
+# ── TERMINAL 2 ── Backend Cursos / Docentes (puerto 3001)
+cd backend/api-node-express/api-cursos
+node server.js
+```
+✅ Debe mostrar: `Servidor corriendo en el puerto 3001` y conexión exitosa a MongoDB
+
+> ⚠️ Si ves `connect ECONNREFUSED 127.0.0.1:27017` → MongoDB no está corriendo. Vuelve al Paso 2.
+
+---
+
+### PASO 7 — Iniciar los frontends
+
+Abre **2 terminales más** (o 3 si quieres Next.js también):
+
+```bash
+# ── TERMINAL 3 ── Portal React — Estudiante (puerto 5173)
 cd apps/portal-react/react-spa-proyectoFinal
 npm run dev
+```
+✅ Abre: `http://localhost:5173`
 
-# Terminal 4 — Panel Angular - Admin + Alumno (puerto 4200)
+```bash
+# ── TERMINAL 4 ── Panel Angular — Admin + Alumno (puerto 4200)
 cd apps/admin-angular/admin-angular
 npx ng serve
+```
+✅ Abre: `http://localhost:4200`
+> La primera vez tarda ~1-2 minutos en compilar. Espera a ver `✔ Compiled successfully`.
 
-# Terminal 5 (opcional) — Catálogo Next.js (puerto 3002)
+```bash
+# ── TERMINAL 5 (opcional) ── Catálogo Next.js (puerto 3002)
 cd apps/mi-proyecto-next
 npm run dev -- -p 3002
 ```
+✅ Abre: `http://localhost:3002`
 
 ---
 
-### PASO 8 — Verificar que todo está corriendo
+### PASO 8 — Verificar que todo funciona
 
-| Servicio | URL | Estado esperado |
-|---------|-----|----------------|
-| Backend Auth | `http://localhost:3000/health` | `{ "status": "ok" }` |
-| Backend Cursos | `http://localhost:3001/api/cursos` | Lista de cursos JSON |
-| Portal React | `http://localhost:5173` | Página de inicio/login |
-| Panel Angular | `http://localhost:4200` | Página de inicio |
-| Catálogo Next.js | `http://localhost:3002/cursos` | Catálogo público |
+Abre estas URLs en tu navegador y confirma que respondan:
+
+| Servicio | URL | Respuesta esperada |
+|---------|-----|--------------------|
+| 🔧 Backend Auth | `http://localhost:3000/api/login` | Error de método (es POST) — significa que el servidor está vivo |
+| 🔧 Backend Cursos | `http://localhost:3001/api/cursos` | Lista de cursos en JSON (puede ser `[]` si no hay cursos aún) |
+| 🌐 Portal React | `http://localhost:5173/login` | Página de login de EduTech |
+| 🌐 Panel Angular | `http://localhost:4200/login` | Página de login de EduTech |
+| 🌐 Next.js | `http://localhost:3002` | Catálogo público de cursos |
 
 ---
 
-## 🔑 Credenciales de prueba
+## 🔑 Credenciales de acceso
 
-> Estas credenciales son creadas por el script `seed-usuarios.js` del Paso 4.
+> Todos los usuarios de prueba son creados en el **Paso 5 (Seed)**. Deben existir en la BD antes de intentar login.
 
 ---
 
@@ -228,19 +279,18 @@ npm run dev -- -p 3002
 
 | Campo | Valor |
 |-------|-------|
-| **Email** | `admin_prueba@edutech.pe` |
-| **Contraseña** | `Admin123!` |
+| **Email** | `admin_321@hotmail.com` |
+| **Contraseña** | `qTg_!32$Wr` |
+| **Email alternativo** | `admin_prueba@edutech.pe` |
+| **Contraseña alternativa** | `Admin123!` |
 | **Portal** | Angular → `http://localhost:4200/login` |
 | **Redirige a** | `/admin-dashboard` |
 
-**Vistas disponibles como Admin:**
-- 📊 `/admin-dashboard` — Panel de control con estadísticas generales
-- 👥 `/admin-estudiantes` — Ver, buscar y eliminar estudiantes registrados
-- 👩‍🏫 `/admin-docentes` — Gestión del listado de docentes
-- 📚 `/admin-cursos` — **CRUD completo** de cursos (crear, editar, eliminar)
-
-> También puedes ingresar con el admin real: `admin_321@hotmail.com` / `qTg_!32$Wr`  
-> *(Requiere que hayas ejecutado `node scripts/migrar-passwords.js` para hashear su contraseña)*
+**Vistas disponibles:**
+- 📊 `/admin-dashboard` — Estadísticas generales del sistema
+- 📚 `/admin-cursos` — CRUD completo de cursos (crear, editar, eliminar)
+- 👥 `/admin-estudiantes` — Ver y eliminar estudiantes registrados
+- 👨‍🏫 `/admin-docentes` — Ver listado de docentes
 
 ---
 
@@ -252,16 +302,15 @@ npm run dev -- -p 3002
 | **Contraseña** | `Estudiante123!` |
 | **Portal Angular** | `http://localhost:4200/login` |
 | **Portal React** | `http://localhost:5173/login` |
-| **Redirige a** | `/dashboard-estudiante` (Angular) ó `/` (React) |
+| **Redirige a** | `/dashboard-estudiante` |
 
-**Vistas disponibles como Estudiante en Angular:**
-- 🏠 `/dashboard-estudiante` — Resumen de cursos inscritos y progreso
-- 📋 `/mis-inscripciones` — Lista completa de inscripciones con estado
-- 🔍 `/explorar-cursos` — Catálogo de cursos disponibles + botón inscribirse
-- 👤 `/perfil` — Datos del perfil del estudiante
+**Vistas disponibles en Angular:**
+- 🏠 `/dashboard-estudiante` — Cursos inscritos y progreso
+- 🔍 `/explorar-cursos` — Catálogo con botón "Inscribirse"
+- 📋 `/mis-inscripciones` — Todas mis inscripciones
+- 👤 `/perfil` — Datos del perfil
 
-**Vistas disponibles como Estudiante en React:**
-- `/` — Mis inscripciones (redirige al login si no hay sesión)
+**Vistas disponibles en React:**
 - `/catalogocursos` — Catálogo de cursos
 - `/usuario` — Perfil del estudiante
 
@@ -273,43 +322,45 @@ npm run dev -- -p 3002
 |-------|-------|
 | **Email** | `docente@edutech.pe` |
 | **Contraseña** | `Docente123!` |
-| **Ver en** | MongoDB Compass → colección `usuario_docente` |
-| **Ver en** | Angular → `/admin-docentes` (como admin) |
+| **Portal** | Angular → `http://localhost:4200/login` |
+| **Redirige a** | `/dashboard-estudiante` |
 
-> El docente es gestionado por el administrador. Sus datos se ven en la sección de **Admin → Docentes**.
-> No tiene login propio al portal (el sistema actual contempla Admin y Estudiante como roles de sesión).
+**Vistas disponibles:**
+- Mismas vistas que el estudiante (explorar cursos, inscripciones, perfil)
+- Sus datos aparecen en el panel de admin: `/admin-docentes`
 
 ---
 
 ## 🌐 Flujo completo demostrable
 
 ```
-[1] Registrarse (o usar credenciales de prueba)
-    └─→ http://localhost:4200/registro  ó  http://localhost:5173/registro
+[1] Iniciar sesión como ESTUDIANTE
+    URL: http://localhost:4200/login
+    Email: estudiante@edutech.pe / Contraseña: Estudiante123!
 
-[2] Iniciar sesión como Estudiante
-    └─→ http://localhost:4200/login  →  dashboard-estudiante
+[2] Explorar catálogo de cursos
+    URL: http://localhost:4200/explorar-cursos
 
-[3] Explorar catálogo de cursos
-    └─→ http://localhost:4200/explorar-cursos
+[3] Inscribirse en un curso
+    → Click "Inscribirme" en cualquier curso
 
-[4] Inscribirse en un curso
-    └─→ Click "Inscribirme" en cualquier curso del catálogo
+[4] Ver mis inscripciones
+    URL: http://localhost:4200/mis-inscripciones
 
-[5] Ver mis inscripciones
-    └─→ http://localhost:4200/mis-inscripciones
+[5] Cerrar sesión → Iniciar como ADMIN
+    URL: http://localhost:4200/login
+    Email: admin_321@hotmail.com / Contraseña: qTg_!32$Wr
 
-[6] (Cerrar sesión y) Iniciar sesión como Admin
-    └─→ http://localhost:4200/login  →  admin-dashboard
+[6] Gestionar cursos (CRUD completo)
+    URL: http://localhost:4200/admin-cursos
+    → Crear nuevo curso con el botón "+ Nuevo curso"
+    → Editar con ✏️ / Eliminar con 🗑️
 
-[7] Gestionar cursos (CRUD)
-    └─→ http://localhost:4200/admin-cursos
+[7] Ver estudiantes registrados
+    URL: http://localhost:4200/admin-estudiantes
 
-[8] Ver estudiantes inscritos
-    └─→ http://localhost:4200/admin-estudiantes
-
-[9] Ver catálogo público (sin login)
-    └─→ http://localhost:3002/cursos  (Next.js - SSG/ISR)
+[8] Catálogo público (sin login, Next.js)
+    URL: http://localhost:3002
 ```
 
 ---
@@ -318,20 +369,20 @@ npm run dev -- -p 3002
 
 ### Auth / Usuarios — Puerto 3000
 
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| `POST` | `/api/login` | ❌ | Iniciar sesión |
-| `POST` | `/api/registro` | ❌ | Registrar estudiante |
+| Método | Ruta | Auth requerido | Descripción |
+|--------|------|----------------|-------------|
+| `POST` | `/api/login` | ❌ | Iniciar sesión (admin, estudiante o docente) |
+| `POST` | `/api/registro` | ❌ | Registrar nuevo estudiante |
 | `GET` | `/api/usuarios` | ✅ Admin | Listar estudiantes |
 | `DELETE` | `/api/usuarios/:id` | ✅ Admin | Eliminar usuario |
-| `POST` | `/api/inscripciones` | ✅ | Inscribirse a un curso |
-| `GET` | `/api/inscripciones/estudiante/:id` | ✅ | Mis inscripciones |
-| `DELETE` | `/api/inscripciones/:id` | ✅ | Cancelar inscripción |
+| `POST` | `/api/inscripciones` | ✅ Token | Inscribirse a un curso |
+| `GET` | `/api/inscripciones/estudiante/:id` | ✅ Token | Ver mis inscripciones |
+| `DELETE` | `/api/inscripciones/:id` | ✅ Token | Cancelar inscripción |
 
 ### Cursos / Docentes — Puerto 3001
 
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
+| Método | Ruta | Auth requerido | Descripción |
+|--------|------|----------------|-------------|
 | `GET` | `/api/cursos` | ❌ | Listar todos los cursos |
 | `POST` | `/api/cursos` | ✅ Admin | Crear curso |
 | `PUT` | `/api/cursos/:id` | ✅ Admin | Actualizar curso |
@@ -346,47 +397,56 @@ npm run dev -- -p 3002
 |---------|--------|
 | Contraseñas hasheadas con **bcrypt** (salt 10) | ✅ |
 | Autenticación con **JWT** (expira en 8h) | ✅ |
-| Protección de rutas por **rol** (admin/student) | ✅ |
+| Protección de rutas por **rol** (admin / student / docente) | ✅ |
 | **CORS** restringido a orígenes autorizados | ✅ |
 | **Helmet** (headers HTTP de seguridad) | ✅ |
 | Variables de entorno en `.env` (nunca en el código) | ✅ |
 | `.env` excluido del repositorio (`.gitignore`) | ✅ |
 
-
+---
 
 ## 📁 Estructura del repositorio
 
 ```
 Proyectos_PW_AVANZADA/
-├── README.md                    ← Este archivo
-├── .env.example                 ← Plantilla de variables de entorno
+├── README.md
 ├── .gitignore
-├── docs/
-│   ├── 03-modelo-de-datos.md
-│   ├── 04-api-endpoints.md
-│   └── 05-checklist-seguridad.md
 ├── apps/
-│   ├── admin-angular/           ← Panel Admin + Vista Alumno (Angular 19)
-│   ├── portal-react/            ← Portal del Estudiante (React + Vite)
-│   └── mi-proyecto-next/        ← Catálogo Público (Next.js 15)
+│   ├── admin-angular/admin-angular/     ← Angular (puerto 4200)
+│   │   └── src/app/
+│   │       ├── components/              ← login, admin-cursos, dashboard-estudiante, etc.
+│   │       ├── services/                ← auth.service, curso, inscripcion
+│   │       └── guard/                   ← auth-guard (protección de rutas por rol)
+│   ├── portal-react/react-spa-proyectoFinal/  ← React + Vite (puerto 5173)
+│   └── mi-proyecto-next/               ← Next.js (puerto 3002)
 └── backend/
     └── api-node-express/
-        ├── proyecto-node-mongodb/  ← Auth + Usuarios + Inscripciones (3000)
+        ├── proyecto-node-mongodb/       ← Auth + Usuarios + Inscripciones (puerto 3000)
+        │   ├── models/                  ← Administrador, UsuarioEstudiante, UsuarioDocente, Inscripcion
+        │   ├── controllers/             ← usuarioController, inscripcionController
+        │   ├── routes/                  ← usuarioRoutes, inscripcionRoutes
         │   └── scripts/
-        │       ├── seed-usuarios.js      ← ⭐ Crear usuarios de prueba
-        │       └── migrar-passwords.js   ← Hashear passwords existentes
-        └── api-cursos/             ← Cursos + Docentes (3001)
+        │       └── seed-usuarios.js    ← ⭐ EJECUTAR ESTO (Paso 5)
+        └── api-cursos/                  ← Cursos + Docentes (puerto 3001)
+            ├── models/                  ← Curso (titulo, docente, categoria, horas, modalidad, precio...)
+            ├── controllers/             ← cursoController
+            └── routes/                  ← cursoRoutes (GET público / POST-PUT-DELETE solo admin)
 ```
 
 ---
 
-## ❓ Problemas comunes
+## ❓ Problemas comunes y soluciones
 
-| Problema | Solución |
-|----------|----------|
-| `connect ECONNREFUSED 127.0.0.1:27017` | Iniciar MongoDB (`mongod` o abrir Compass) |
-| `Error: JWT_SECRET not defined` | Verificar que el `.env` existe y tiene `JWT_SECRET` |
-| `Cannot read properties of undefined` | Ejecutar el seed: `node scripts/seed-usuarios.js` |
-| Puerto 4200 en uso | Cambiar: `npx ng serve --port 4201` |
-| Puerto 5173 en uso | Cambiar en `vite.config.js` o usar `npm run dev -- --port 5174` |
-| Angular no compila | Ejecutar `npm install` en la carpeta de Angular primero |
+| Error | Causa | Solución |
+|-------|-------|----------|
+| `connect ECONNREFUSED 127.0.0.1:27017` | MongoDB no está corriendo | Abrir Compass o ejecutar `net start MongoDB` |
+| `Error: JWT_SECRET not defined` | Falta el archivo `.env` | Copiar `.env.example` a `.env` en cada backend |
+| Login devuelve "Credenciales inválidas" para estudiante/docente | El seed no se ejecutó | Correr `node scripts/seed-usuarios.js` (Paso 5) |
+| Login devuelve 401 para admin real | La contraseña no está hasheada | Correr el seed (migra automáticamente) |
+| Crear/editar curso devuelve 401 | El token no se envía en la petición | Actualizar el servicio Angular (ya corregido) |
+| Crear curso devuelve error de validación | Modelo desactualizado | El modelo `Curso.js` ya fue corregido |
+| Angular muestra pantalla en blanco | Error de compilación o `npm install` faltante | Ejecutar `npm install` en la carpeta de Angular |
+| `Could not find '@angular/build:application'` | `node_modules` no instalados | Ejecutar `npm install` dentro de `admin-angular/` |
+| Puerto 4200 en uso | Otro proceso lo ocupa | Usar `npx ng serve --port 4201` |
+| Puerto 5173 en uso | Otro proceso lo ocupa | `npm run dev -- --port 5174` |
+| El guard redirige al login infinitamente | Token expirado en localStorage | Cerrar sesión, borrar localStorage, volver a login |

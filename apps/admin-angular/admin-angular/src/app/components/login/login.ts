@@ -35,6 +35,8 @@ export class Login {
         this.authService.saveSession(res.token, res.role, res.user);
         if (res.role === 'admin') {
           this.router.navigate(['/admin-dashboard']);
+        } else if (res.role === 'docente') {
+          this.router.navigate(['/dashboard-estudiante']);
         } else {
           this.router.navigate(['/dashboard-estudiante']);
         }

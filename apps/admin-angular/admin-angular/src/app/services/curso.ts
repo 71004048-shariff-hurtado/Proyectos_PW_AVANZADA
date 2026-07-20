@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface CursoDTO {
@@ -38,19 +38,31 @@ export class Curso {
 
   constructor(private http: HttpClient) {}
 
+  /** Cabeceras con JWT para operaciones protegidas */
+  private authHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || '';
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
   listarCursos(): Observable<CursoDTO[]> {
     return this.http.get<CursoDTO[]>(`${this.apiUrl}/cursos`);
   }
 
   crearCurso(datos: CrearCursoDTO): Observable<CursoDTO> {
-    return this.http.post<CursoDTO>(`${this.apiUrl}/cursos`, datos);
+    return this.http.post<CursoDTO>(`${this.apiUrl}/cursos`, datos, {
+      headers: this.authHeaders(),
+    });
   }
 
   actualizarCurso(id: string, datos: Partial<CrearCursoDTO>): Observable<CursoDTO> {
-    return this.http.put<CursoDTO>(`${this.apiUrl}/cursos/${id}`, datos);
+    return this.http.put<CursoDTO>(`${this.apiUrl}/cursos/${id}`, datos, {
+      headers: this.authHeaders(),
+    });
   }
 
   eliminarCurso(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/cursos/${id}`);
+    return this.http.delete(`${this.apiUrl}/cursos/${id}`, {
+      headers: this.authHeaders(),
+    });
   }
 }

@@ -19,6 +19,20 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/registro`, studentData);
   }
 
+  // --- Sincronización de Docentes ---
+  syncDocenteAccount(docenteData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/usuarios/docente`, docenteData);
+  }
+
+  updateDocenteAccount(correoOriginal: string, docenteData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/usuarios/docente/${encodeURIComponent(correoOriginal)}`, docenteData);
+  }
+
+  deleteDocenteAccount(correo: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/usuarios/docente/${encodeURIComponent(correo)}`);
+  }
+  // ----------------------------------
+
   saveSession(token: string, role: string, user: any): void {
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);

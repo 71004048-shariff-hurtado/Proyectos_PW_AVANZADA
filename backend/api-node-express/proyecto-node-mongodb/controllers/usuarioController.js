@@ -215,3 +215,65 @@ exports.eliminarUsuario = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// ────────────────────────────────────────────────────
+// Sincronización de Cuentas de Docentes (solo admin)
+// ────────────────────────────────────────────────────
+
+exports.createDocenteAccount = async (req, res) => {
+  try {
+    const { nombre, correo_electronico, especialidad } = req.body;
+    
+    // Check si el correo ya existe
+    const existsDocente = await UsuarioDocente.findOne({ correo_electronico });
+    const existsAdmin = await Administrador.findOne({ correo_electronico });
+    if (existsDocente || existsAdmin) {
+      return res.status(400).json({ error: 'El correo electrónico ya está registrado.' });
+    }
+
+    const defaultPassword = 'Docente123!';
+    const hash = await bcrypt.hash(defaultPassword, 10);
+
+    const nuevoDocente = new UsuarioDocente({
+      nombre,
+      apellidos: '', // Puede venir vacío
+      correo_electronico,
+      especialidad: especialidad || '',
+      contraseña: hash
+    });
+
+    await nuevoDocente.save();
+    res.status(201).json({ msg: 'Cuenta de docente creada en Auth DB', id: nuevoDocente._id });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.updateDocenteAccount = async (req, res) => {
+  try {
+    // Usamos el correo original para buscar la cuenta (pasado por query param o parametro)
+    const correo_original = req.params.correo;
+    const { nombre, correo_electronico, especialidad } = req.body;
+
+    const actualizado = await UsuarioDocente.findOneAndUpdate(
+      { correo_electronico: correo_original },
+      { nombre, correo_electronico, especialidad },
+      { new: true }
+    );
+    
+    if (!actualizado) return res.status(404).json({ error: 'Cuenta de docente no encontrada.' });
+    res.json({ msg: 'Cuenta de docente actualizada en Auth DB' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.deleteDocenteAccount = async (req, res) => {
+  try {
+    const correo = req.params.correo;
+    await UsuarioDocente.findOneAndDelete({ correo_electronico: correo });
+    res.json({ mensaje: 'Cuenta de docente eliminada en Auth DB.' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

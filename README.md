@@ -289,8 +289,8 @@ Abre estas URLs en tu navegador y confirma que respondan:
 **Vistas disponibles:**
 - 📊 `/admin-dashboard` — Estadísticas generales del sistema
 - 📚 `/admin-cursos` — CRUD completo de cursos (crear, editar, eliminar)
-- 👥 `/admin-estudiantes` — Ver y eliminar estudiantes registrados
-- 👨‍🏫 `/admin-docentes` — Ver listado de docentes
+- 👥 `/admin-estudiantes` — CRUD completo de estudiantes (con sincronización y contraseña por defecto: Estudiante123!)
+- 👨‍🏫 `/admin-docentes` — CRUD completo de docentes (ahora sincronizado automáticamente entre BD de Cursos y BD de Auth, creando cuenta con contraseña: Docente123!)
 
 ---
 
@@ -330,7 +330,7 @@ Abre estas URLs en tu navegador y confirma que respondan:
 - 📚 `/mis-cursos-docente` — Vista detallada de los cursos que imparte el profesor.
 - 👥 `/mis-alumnos` — Tabla de estudiantes inscritos en sus cursos, mostrando progreso y estado.
 
-> El administrador gestiona a los docentes desde su panel (`/admin-docentes`), pero el docente tiene su propio entorno totalmente separado de los estudiantes.
+> El administrador gestiona a los docentes desde su panel (`/admin-docentes`). Anteriormente el docente no podía iniciar sesión porque los sistemas estaban fragmentados, pero **gracias a la nueva sincronización de bases de datos**, cualquier docente o estudiante creado por el Administrador obtiene instantáneamente su cuenta para iniciar sesión (`Docente123!` o `Estudiante123!`).
 
 ---
 

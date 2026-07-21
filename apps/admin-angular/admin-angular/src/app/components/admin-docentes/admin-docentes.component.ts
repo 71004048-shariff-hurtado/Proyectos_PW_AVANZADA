@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DocenteService, DocenteDTO, CrearDocenteDTO } from '../../services/docente';
+import { AuthService } from '../../services/auth.service';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-admin-docentes',
@@ -28,7 +31,8 @@ export class AdminDocentesComponent implements OnInit {
   constructor(
     private docenteService: DocenteService,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
   ) {
     this.docenteForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -91,11 +95,23 @@ export class AdminDocentesComponent implements OnInit {
     this.guardando = true;
     this.errorFormulario = '';
     const datos: CrearDocenteDTO = this.docenteForm.value;
+    
+    // Preparar payload para la base de datos de autenticación (puerto 3000)
+    const authPayload = {
+      nombre: datos.nombre,
+      correo_electronico: datos.email,
+      especialidad: datos.especialidad
+    };
 
     if (this.modoEdicion && this.docenteEditandoId) {
-      this.docenteService.actualizarDocente(this.docenteEditandoId, datos).subscribe({
+      const docenteActual = this.docentes.find(d => d._id === this.docenteEditandoId);
+      const correoOriginal = docenteActual ? docenteActual.email : datos.email;
+      
+      this.authService.updateDocenteAccount(correoOriginal, authPayload).pipe(
+        switchMap(() => this.docenteService.actualizarDocente(this.docenteEditandoId!, datos))
+      ).subscribe({
         next: (actualizado) => {
-          this.exitoMensaje = `Docente "${actualizado.nombre}" actualizado correctamente.`;
+          this.exitoMensaje = `Docente "${actualizado.nombre}" actualizado correctamente (Ambas BD).`;
           this.guardando = false;
           this.cerrarModal();
           this.cdr.detectChanges();
@@ -110,9 +126,11 @@ export class AdminDocentesComponent implements OnInit {
         },
       });
     } else {
-      this.docenteService.crearDocente(datos).subscribe({
+      this.authService.syncDocenteAccount(authPayload).pipe(
+        switchMap(() => this.docenteService.crearDocente(datos))
+      ).subscribe({
         next: (nuevo) => {
-          this.exitoMensaje = `Docente "${nuevo.nombre}" creado exitosamente.`;
+          this.exitoMensaje = `Docente "${nuevo.nombre}" creado exitosamente (Pass: Docente123!).`;
           this.guardando = false;
           this.cerrarModal();
           this.cdr.detectChanges();
@@ -120,7 +138,7 @@ export class AdminDocentesComponent implements OnInit {
           setTimeout(() => (this.exitoMensaje = ''), 4000);
         },
         error: (err) => {
-          this.errorCarga = err?.error?.error || 'Error al crear.';
+          this.errorCarga = err?.error?.error || 'Error al crear. ¿Correo duplicado?';
           this.guardando = false;
           this.cerrarModal();
           this.cdr.detectChanges();
@@ -132,15 +150,26 @@ export class AdminDocentesComponent implements OnInit {
   eliminarDocente(docente: DocenteDTO) {
     if (!confirm(`¿Eliminar al docente "${docente.nombre}"?`)) return;
 
-    this.docenteService.eliminarDocente(docente._id).subscribe({
+    this.authService.deleteDocenteAccount(docente.email).pipe(
+      switchMap(() => this.docenteService.eliminarDocente(docente._id))
+    ).subscribe({
       next: () => {
         this.docentes = this.docentes.filter((d) => d._id !== docente._id);
-        this.exitoMensaje = 'Docente eliminado.';
+        this.exitoMensaje = 'Docente eliminado (Ambas BD).';
         this.cdr.detectChanges();
         setTimeout(() => (this.exitoMensaje = ''), 4000);
       },
       error: () => {
-        this.errorCarga = 'Error al eliminar el docente.';
+        // Fallback en caso de que la cuenta auth no existiera, pero queramos borrar el perfil de todas formas
+        this.docenteService.eliminarDocente(docente._id).subscribe({
+           next: () => {
+              this.docentes = this.docentes.filter((d) => d._id !== docente._id);
+              this.exitoMensaje = 'Docente eliminado (Solo perfil).';
+              this.cdr.detectChanges();
+              setTimeout(() => (this.exitoMensaje = ''), 4000);
+           },
+           error: () => this.errorCarga = 'Error al eliminar el docente.'
+        });
       },
     });
   }

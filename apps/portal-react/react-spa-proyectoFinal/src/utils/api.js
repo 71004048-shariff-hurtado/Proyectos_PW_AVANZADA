@@ -3,8 +3,8 @@
  * Agrega automáticamente el token JWT del localStorage.
  */
 
-const AUTH_API = 'https://edutech-api-auth.onrender.com/api';
-const CURSOS_API = 'https://edutech-api-cursos.onrender.com/api';
+const AUTH_API = 'http://localhost:3000/api';
+const CURSOS_API = 'http://localhost:3001/api';
 
 function getAuthHeaders() {
   const token = localStorage.getItem('token');

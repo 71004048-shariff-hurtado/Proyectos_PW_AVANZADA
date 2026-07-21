@@ -17,7 +17,7 @@ export interface InscripcionDTO {
   providedIn: 'root'
 })
 export class InscripcionService {
-  private apiUrl = 'https://edutech-api-auth.onrender.com/api';
+  private apiUrl = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) {}
 

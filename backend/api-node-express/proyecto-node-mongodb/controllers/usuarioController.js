@@ -147,8 +147,38 @@ exports.registerUsuario = async (req, res) => {
 
 exports.createUsuario = async (req, res) => {
   try {
-    const nuevo = await Usuario.create(req.body);
-    res.status(201).json(nuevo);
+    const { nombre, apellidos, correo_electronico, programa_academico } = req.body;
+    
+    // Check if email exists
+    const existsEstudiante = await UsuarioEstudiante.findOne({ correo_electronico });
+    const existsAdmin = await Administrador.findOne({ correo_electronico });
+    if (existsEstudiante || existsAdmin) {
+      return res.status(400).json({ error: 'El correo electrónico ya está registrado.' });
+    }
+
+    // Default password for users created by admin
+    const defaultPassword = 'Estudiante123!';
+    const hash = await bcrypt.hash(defaultPassword, 10);
+
+    const nuevo = new UsuarioEstudiante({
+      nombre,
+      apellidos,
+      correo_electronico,
+      programa_academico: programa_academico || '',
+      contraseña: hash
+    });
+
+    await nuevo.save();
+    
+    const usuarioRes = {
+      _id: nuevo._id,
+      nombre: nuevo.nombre,
+      apellidos: nuevo.apellidos,
+      correo_electronico: nuevo.correo_electronico,
+      programa_academico: nuevo.programa_academico
+    };
+
+    res.status(201).json(usuarioRes);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

@@ -200,6 +200,7 @@ export class AdminCursosComponent implements OnInit {
       next: () => {
         this.cursos = this.cursos.filter((c) => c._id !== curso._id);
         this.exitoMensaje = `Curso "${curso.titulo}" eliminado.`;
+        this.cdr.detectChanges();
         setTimeout(() => (this.exitoMensaje = ''), 4000);
       },
       error: () => {

@@ -136,6 +136,7 @@ export class AdminDocentesComponent implements OnInit {
       next: () => {
         this.docentes = this.docentes.filter((d) => d._id !== docente._id);
         this.exitoMensaje = 'Docente eliminado.';
+        this.cdr.detectChanges();
         setTimeout(() => (this.exitoMensaje = ''), 4000);
       },
       error: () => {

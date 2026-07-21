@@ -65,7 +65,7 @@
           </div>
           <div style="display:flex;gap:var(--space-3);">
             <button class="btn btn-ghost btn-sm" type="button">📥 Exportar CSV</button>
-            <button class="btn btn-primary btn-sm" type="button">+ Nuevo estudiante</button>
+            <button class="btn btn-primary btn-sm" type="button" (click)="abrirModalCrear()">+ Nuevo estudiante</button>
           </div>
         </div>
       </div>
@@ -149,6 +149,7 @@
               <td>{{est.correo_electronico}}</td>
               <td>
                 <div class="td-actions">
+                  <button class="btn btn-ghost btn-icon btn-sm" type="button" aria-label="Editar" (click)="abrirModalEditar(est)">✏️</button>
                   <button class="btn btn-ghost btn-icon btn-sm" title="Eliminar" aria-label="Eliminar estudiante"
                     style="color:var(--danger-600);" (click)="eliminarEstudiante(est)">🗑️</button>
                 </div>
@@ -160,6 +161,58 @@
       </div>
 
     </main>
+  </div>
+</div>
+
+<!-- Modal para crear / editar estudiante -->
+<div *ngIf="mostrarModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:var(--space-4);" (click.self)="cerrarModal()">
+  <div style="background:var(--white);border-radius:var(--border-radius-lg);padding:var(--space-6);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
+      <h2 style="font-size:var(--text-xl);font-weight:700;color:var(--gray-900);">{{modoEdicion ? '✏️ Editar estudiante' : '➕ Nuevo estudiante'}}</h2>
+      <button (click)="cerrarModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--gray-500);">×</button>
+    </div>
+
+    <div *ngIf="errorFormulario" style="padding:var(--space-3);background:#fee2e2;border-radius:var(--border-radius);color:#991b1b;margin-bottom:var(--space-4);">❌ {{errorFormulario}}</div>
+
+    <form [formGroup]="estudianteForm" (ngSubmit)="guardarEstudiante()">
+      <div style="display:grid;gap:var(--space-4);">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Nombres *</label>
+            <input class="form-control" type="text" formControlName="nombre" />
+            <small *ngIf="campoInvalido('nombre')" style="color:#dc2626;">El nombre es obligatorio.</small>
+          </div>
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Apellidos *</label>
+            <input class="form-control" type="text" formControlName="apellidos" />
+            <small *ngIf="campoInvalido('apellidos')" style="color:#dc2626;">Los apellidos son obligatorios.</small>
+          </div>
+        </div>
+        <div>
+          <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Correo electrónico *</label>
+          <input class="form-control" type="email" formControlName="correo_electronico" />
+          <small *ngIf="campoInvalido('correo_electronico')" style="color:#dc2626;">Ingresa un correo válido.</small>
+        </div>
+        <div>
+          <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Programa Académico</label>
+          <select class="form-control" formControlName="programa_academico">
+            <option value="">Selecciona un programa...</option>
+            <option value="Ing. de Sistemas">Ing. de Sistemas</option>
+            <option value="Ing. de Software">Ing. de Software</option>
+            <option value="Ing. Informática">Ing. Informática</option>
+          </select>
+        </div>
+        <div *ngIf="!modoEdicion">
+          <small style="color:var(--gray-500);display:block;margin-top:var(--space-2);">ℹ️ La contraseña por defecto será "Estudiante123!"</small>
+        </div>
+      </div>
+      <div style="display:flex;gap:var(--space-3);justify-content:flex-end;margin-top:var(--space-6);">
+        <button type="button" class="btn btn-ghost" (click)="cerrarModal()" [disabled]="guardando">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="guardando">
+          {{guardando ? 'Guardando...' : (modoEdicion ? 'Actualizar' : 'Crear')}}
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 

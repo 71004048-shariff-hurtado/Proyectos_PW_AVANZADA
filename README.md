@@ -448,6 +448,21 @@ Proyectos_PW_AVANZADA/
 
 ---
 
+## 🛑 Solución de Errores Comunes (Troubleshooting)
+
+### Error: `Failed to resolve import "zone.js"` al compilar Angular
+Si al ejecutar `npx ng serve` en la carpeta de Angular obtienes un error rojo indicando que no se pudo resolver el import de `zone.js` (`src/main.ts:1:7`), se debe a que la versión moderna de Angular intenta ser "zoneless" por defecto, pero nuestro proyecto requiere esta librería para evitar bugs gráficos de refresco.
+
+**Solución:**
+En la terminal de Angular, cancela la ejecución (`Ctrl + C`) y ejecuta:
+```bash
+npm install zone.js
+npx ng serve
+```
+El servidor ahora compilará correctamente. (Este paso ya está cubierto si descargaste la versión más reciente del código, ya que ha sido incluido en las dependencias).
+
+---
+
 ## ❓ Problemas comunes y soluciones
 
 | Error | Causa | Solución |

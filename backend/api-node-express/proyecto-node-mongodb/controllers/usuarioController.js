@@ -222,7 +222,7 @@ exports.eliminarUsuario = async (req, res) => {
 
 exports.createDocenteAccount = async (req, res) => {
   try {
-    const { nombre, correo_electronico, especialidad } = req.body;
+    const { nombre, apellidos, correo_electronico, especialidad } = req.body;
     
     // Check si el correo ya existe
     const existsDocente = await UsuarioDocente.findOne({ correo_electronico });
@@ -236,7 +236,7 @@ exports.createDocenteAccount = async (req, res) => {
 
     const nuevoDocente = new UsuarioDocente({
       nombre,
-      apellidos: '', // Puede venir vacío
+      apellidos: apellidos || '', // Ahora viene del frontend
       correo_electronico,
       especialidad: especialidad || '',
       contraseña: hash
@@ -253,11 +253,11 @@ exports.updateDocenteAccount = async (req, res) => {
   try {
     // Usamos el correo original para buscar la cuenta (pasado por query param o parametro)
     const correo_original = req.params.correo;
-    const { nombre, correo_electronico, especialidad } = req.body;
+    const { nombre, apellidos, correo_electronico, especialidad } = req.body;
 
     const actualizado = await UsuarioDocente.findOneAndUpdate(
       { correo_electronico: correo_original },
-      { nombre, correo_electronico, especialidad },
+      { nombre, apellidos, correo_electronico, especialidad },
       { new: true }
     );
     

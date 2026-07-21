@@ -5,6 +5,10 @@ const docenteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    apellidos: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true

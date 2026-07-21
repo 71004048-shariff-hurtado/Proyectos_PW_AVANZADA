@@ -93,9 +93,9 @@
             </tr>
             <tr *ngFor="let docente of docentes">
               <td>
-                <div class="user-cell">
-                  <div class="avatar" aria-hidden="true">{{ iniciales(docente.nombre) }}</div>
-                  <div class="user-info"><div class="name">{{docente.nombre}}</div><div class="sub">{{docente.email}}</div></div>
+                <div style="display:flex;align-items:center;gap:var(--space-3);">
+                  <div class="avatar" style="background:var(--danger-500);color:var(--white);">{{ iniciales(docente.nombre) }}</div>
+                  <div class="user-info"><div class="name">{{docente.nombre}} {{docente.apellidos}}</div><div class="sub">{{docente.email}}</div></div>
                 </div>
               </td>
               <td>{{docente.especialidad}}</td>
@@ -132,10 +132,17 @@
 
     <form [formGroup]="docenteForm" (ngSubmit)="guardarDocente()">
       <div style="display:grid;gap:var(--space-4);">
-        <div>
-          <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Nombre completo *</label>
-          <input class="form-control" type="text" formControlName="nombre" />
-          <small *ngIf="campoInvalido('nombre')" style="color:#dc2626;">El nombre es obligatorio.</small>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Nombre *</label>
+            <input class="form-control" type="text" formControlName="nombre" />
+            <small *ngIf="campoInvalido('nombre')" style="color:#dc2626;">El nombre es obligatorio.</small>
+          </div>
+          <div>
+            <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Apellidos *</label>
+            <input class="form-control" type="text" formControlName="apellidos" />
+            <small *ngIf="campoInvalido('apellidos')" style="color:#dc2626;">El apellido es obligatorio.</small>
+          </div>
         </div>
         <div>
           <label style="display:block;font-weight:600;margin-bottom:var(--space-1);color:var(--gray-700);">Correo electrónico *</label>

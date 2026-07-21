@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export interface DocenteDTO {
   _id: string;
   nombre: string;
+  apellidos: string;
   email: string;
   especialidad: string;
   departamento: string;
@@ -13,6 +14,7 @@ export interface DocenteDTO {
 
 export interface CrearDocenteDTO {
   nombre: string;
+  apellidos: string;
   email: string;
   especialidad: string;
   departamento: string;

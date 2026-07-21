@@ -36,6 +36,7 @@ export class AdminDocentesComponent implements OnInit {
   ) {
     this.docenteForm = this.fb.group({
       nombre: ['', Validators.required],
+      apellidos: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       especialidad: ['', Validators.required],
       departamento: ['', Validators.required],
@@ -99,6 +100,7 @@ export class AdminDocentesComponent implements OnInit {
     // Preparar payload para la base de datos de autenticación (puerto 3000)
     const authPayload = {
       nombre: datos.nombre,
+      apellidos: datos.apellidos,
       correo_electronico: datos.email,
       especialidad: datos.especialidad
     };

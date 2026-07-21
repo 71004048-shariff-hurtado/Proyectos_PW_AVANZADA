@@ -25,7 +25,7 @@ export interface CrearDocenteDTO {
   providedIn: 'root',
 })
 export class DocenteService {
-  private apiUrl = 'http://localhost:3001/api';
+  private apiUrl = 'https://edutech-api-cursos.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 

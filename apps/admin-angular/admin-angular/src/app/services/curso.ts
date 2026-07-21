@@ -34,7 +34,7 @@ export interface CrearCursoDTO {
 })
 export class Curso {
   // api-cursos corre en puerto 3001
-  private apiUrl = 'http://localhost:3001/api';
+  private apiUrl = 'https://edutech-api-cursos.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 

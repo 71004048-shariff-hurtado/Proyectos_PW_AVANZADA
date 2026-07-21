@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -19,17 +19,22 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/registro`, studentData);
   }
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token') || '';
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
   // --- Sincronización de Docentes ---
   syncDocenteAccount(docenteData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/usuarios/docente`, docenteData);
+    return this.http.post(`${this.apiUrl}/usuarios/docente`, docenteData, { headers: this.getAuthHeaders() });
   }
 
   updateDocenteAccount(correoOriginal: string, docenteData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/usuarios/docente/${encodeURIComponent(correoOriginal)}`, docenteData);
+    return this.http.put(`${this.apiUrl}/usuarios/docente/${encodeURIComponent(correoOriginal)}`, docenteData, { headers: this.getAuthHeaders() });
   }
 
   deleteDocenteAccount(correo: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/usuarios/docente/${encodeURIComponent(correo)}`);
+    return this.http.delete(`${this.apiUrl}/usuarios/docente/${encodeURIComponent(correo)}`, { headers: this.getAuthHeaders() });
   }
   // ----------------------------------
 

@@ -72,7 +72,7 @@ export default async function CatalogoCursosPage() {
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
             gap: '1.5rem',
           }}>
-            {cursos.map((curso) => (
+            {cursos.map((curso: any) => (
               <article
                 key={curso._id}
                 style={{

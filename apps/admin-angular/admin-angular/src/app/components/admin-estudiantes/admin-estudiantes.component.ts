@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { API_AUTH_URL } from '../../config/api.config';
 
 interface EstudianteDTO {
   _id: string;
@@ -28,7 +29,7 @@ export class AdminEstudiantesComponent implements OnInit {
   errorCarga = '';
   exitoMensaje = '';
 
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = API_AUTH_URL;
 
   // Modal / Formulario
   mostrarModal = false;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_AUTH_URL } from '../config/api.config';
 
 export interface InscripcionDTO {
   _id: string;
@@ -17,7 +18,7 @@ export interface InscripcionDTO {
   providedIn: 'root'
 })
 export class InscripcionService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = API_AUTH_URL;
 
   constructor(private http: HttpClient) {}
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_CURSOS_URL } from '../config/api.config';
 
 export interface CursoDTO {
   _id: string;
@@ -34,7 +35,7 @@ export interface CrearCursoDTO {
 })
 export class Curso {
   // api-cursos corre en puerto 3001
-  private apiUrl = 'http://localhost:3001/api';
+  private apiUrl = API_CURSOS_URL;
 
   constructor(private http: HttpClient) {}
 

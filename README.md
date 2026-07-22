@@ -16,7 +16,7 @@
 
 ## 🎥 Video de sustentación
 
-> 🎥 **YouTube**: [Enlace al video de sustentación] *(pendiente)*
+> 🎥 **YouTube**: [https://www.youtube.com/watch?v=aLYH8VZnuBg] 
 
 ---
 
